@@ -1,0 +1,24 @@
+$header-height: 60px;
+$side-menu-width: 200px;
+
+sw-header {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  height: $header-height;
+  background-color: #ddd;
+}
+
+sw-side-menu {
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  bottom: 0;
+  width: $side-menu-width;
+  background-color: #eee;
+}
+
+main {
+  margin-top: $header-height;
+  margin-left: $side-menu-width;
+}

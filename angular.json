@@ -30,8 +30,13 @@
               "projects/main/src/favicon.ico",
               "projects/main/src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/main/src/styles"
+              ]
+            },
             "styles": [
-              "projects/main/src/styles.scss"
+              "projects/main/src/styles/styles.scss"
             ],
             "scripts": []
           },
