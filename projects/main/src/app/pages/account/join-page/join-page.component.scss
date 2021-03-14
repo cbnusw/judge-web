@@ -1,0 +1,170 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 300;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 900;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf)
+      format("opentype");
+}
+
+.no-drag {
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+body {
+  padding-bottom: 150px;
+}
+
+.join-container {
+  border: solid 1px;
+  border-radius: 7px;
+  width: 400px;
+  border-color: rgb(203, 208, 209);
+  margin: auto;
+  box-shadow: 0px 0px 10px rgb(170, 174, 175);
+  padding: 0px 25px 25px;
+}
+
+.name {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  color: rgb(71, 71, 71);
+  font-size: 40px;
+  margin: 30px 0px 20px;
+  width: 400px;
+  border-bottom: solid 1px rgb(170, 174, 175);
+}
+
+.form-container {
+  width: 400px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+input {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  color: rgb(24, 24, 24);
+  border: solid 1px;
+  border-color: rgb(176, 181, 182);
+  border-radius: 7px;
+  background-color: transparent;
+  width: 392px;
+  height: 40px;
+  font-size: 100%;
+  padding-left: 8px;
+}
+
+input:hover {
+  box-shadow: 0px 0px 5px rgb(129, 104, 243);
+  outline: transparent;
+}
+
+input:focus {
+  border: solid 1px rgb(129, 104, 243);
+  outline: transparent;
+}
+
+.form-field {
+  width: 400px;
+  margin-top: 1px;
+  align-content: center;
+}
+
+button {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid rgb(129, 104, 243);
+  margin: 15px 0px 0px 300px;
+  width: 100px;
+  height: 34px;
+  font-size: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgb(129, 104, 243);
+}
+
+button:hover {
+  outline: transparent;
+  box-shadow: 0px 0px 10px rgb(129, 104, 243);
+  background-color: rgb(129, 104, 243);
+  color: rgb(255, 255, 255);
+}
+button:focus {
+  outline: transparent;
+}
+
+.message {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  color: rgb(80, 80, 80);
+  margin-top: 10px;
+  font-size: 14px;
+  width: 100px;
+}
