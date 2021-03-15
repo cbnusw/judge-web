@@ -1,1 +1,14 @@
-<p>side-menu works!</p>
+<ul class="menu">
+  <li>
+    <button *ngIf="!loginStatus; else elseCase" (click)="setLogin(true)">
+      Login
+    </button>
+    <ng-template #elseCase>
+      <button (click)="setLogin(false)">Logout</button>
+    </ng-template>
+  </li>
+
+  <li *ngFor="let list of lists">
+    <a [href]="list.link">{{ list.name }}</a>
+  </li>
+</ul>
