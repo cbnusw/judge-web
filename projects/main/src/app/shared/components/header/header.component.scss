@@ -1,3 +1,49 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf)
+      format("opentype");
+}
+
 :host {
   display: block;
+}
+
+section {
+  display: table;
+}
+
+button {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 10px;
+  padding: 5px 5px 5px 5px;
+  border-color: black;
+  background-color: white;
+  border-radius: 12px;
+}
+
+button:hover {
+  border: solid 1px rgb(129, 104, 243);
+  outline: transparent;
+  box-shadow: 0px 0px 5px rgb(129, 104, 243);
+}
+
+.Menu1, .Menu2, .Menu3{
+  margin-right: 50px;
+}
+
+.Menu4 {
+  margin-right: 1150px;
+}
+
+.Login {
+  margin-right: 20px;
 }
