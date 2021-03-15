@@ -1,10 +1,15 @@
-<section>
-  <div class="example-button-row">
-    <button class="Menu1">Menu1</button>
-    <button class="Menu2">Menu2</button>
-    <button class="Menu3">Menu3</button>
-    <button class="Menu4">Menu4</button>
-    <button class="Login" href="">회원가입</button>
-    <button class="Logout">로그인</button>
+<!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="topnav" id="myTopnav">
+  <a href="./main" class="active">Online Judge</a>
+  <a href="#news">소개</a>
+  <a href="#contact">문제</a>
+  <div class="container">
+    <div class="item"><a href="./account/login" class="Login">로그인</a></div>
+    <div class="item"><a href="./account/join" class="Join">회원가입</a></div>
   </div>
-</section>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <em class="fa fa-bars"></em>
+  </a>
+</div>
