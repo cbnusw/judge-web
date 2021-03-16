@@ -1,13 +1,13 @@
 <body>
   <div class="join-container">
     <h2 class="name no-drag">회원가입</h2>
-    <form [formGroup]='joinForm' (ngSubmit)='onSubmit(joinForm.value)'>
+    <form [formGroup]='form' (ngSubmit)='onSubmit(form.value)'>
       <span class="form-field" *ngFor="let classInfo of formClass">
           <div class="message no-drag">{{classInfo.korean}}</div>
           <label [for]="classInfo.class"></label>
           <input [id]="classInfo.class" 
             [type]="classInfo.class === 'password' ? 'password' : 'text'" 
-            [formControlName]="classInfo.korean !== '비밀번호 확인' ? classInfo.class : 'password'">
+            [formControlName]="classInfo.class">
       </span>
       <button class="button" type="submit" >회원가입</button>
       
