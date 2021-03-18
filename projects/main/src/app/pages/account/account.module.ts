@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { JoinPageComponent } from './join-page/join-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,7 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class AccountModule { }

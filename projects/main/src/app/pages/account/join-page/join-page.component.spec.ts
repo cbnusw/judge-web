@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { JoinPageComponent } from './join-page.component';
 
@@ -8,6 +9,9 @@ describe('JoinPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ 
+      FormsModule
+      ],
       declarations: [ JoinPageComponent ]
     })
     .compileComponents();

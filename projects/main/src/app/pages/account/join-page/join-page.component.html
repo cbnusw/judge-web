@@ -1,16 +1,39 @@
 <body>
-  <div class="join-container">
-    <h2 class="name no-drag">회원가입</h2>
-    <form [formGroup]='form' (ngSubmit)='onSubmit(form.value)'>
-      <span class="form-field" *ngFor="let classInfo of formClass">
-          <div class="message no-drag">{{classInfo.korean}}</div>
-          <label [for]="classInfo.class"></label>
-          <input [id]="classInfo.class" 
-            [type]="classInfo.class === 'password' ? 'password' : 'text'" 
-            [formControlName]="classInfo.class">
-      </span>
-      <button class="button" type="submit" >회원가입</button>
-      
-    </form>
-  </div>
-</body>
+  <div class="form-group">
+    <h2 class="form-title no-drag">회원가입</h2>
+    <form [formGroup]='joinForm' (ngSubmit)='onSubmit(joinForm.value)'>
+      <div class= "form" *ngFor="let form of formClass">
+        <ng-container *ngTemplateOutlet='form.left || form.right ? doubleForm : singleForm; context: {form:form}'></ng-container>
+      </div>
+    <button class="button" type="submit" >회원가입</button>
+
+
+<ng-template #singleForm let-form='form'>
+  <label class="title no-drag" [for]="form.id">{{form.title}}</label>
+  <input [id]="form.id" 
+  [type]="text" 
+  [formControlName]="form.id" spellcheck="false">
+  <div *ngIf="form.invalid">asd</div>
+  <div class="sub-message no-drag right-message">{{form.subMessage}}</div>
+</ng-template>
+
+
+<ng-template #doubleForm let-form='form'>
+  <ng-container *ngTemplateOutlet='form.left ? leftForm : rightForm; context: {form:form}'></ng-container>
+</ng-template>
+
+<ng-template #leftForm let-form='form'>
+    <div class="left-form">
+      <label class="title no-drag" [for] = "form.id">{{form.title}}</label>
+      <input [id]="form.id" type="password" [formControlName]="form.id" >
+      <div class="sub-message no-drag right-message">{{form.subMessage}}</div>
+    </div>
+</ng-template>
+
+<ng-template #rightForm let-form='form'>
+    <div class="right-form">
+      <label class="title no-drag" [for]="form.id" >{{form.title}}</label>
+      <input [id]="form.id" type="password" [formControlName]="form.id">
+      <div class="sub-message no-drag right-message">{{form.subMessage}}</div>
+    </div>
+</ng-template>

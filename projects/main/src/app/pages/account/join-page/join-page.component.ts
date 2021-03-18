@@ -1,51 +1,64 @@
-import { Component, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-
-interface FormClasses{
-  class: string,
-  korean: string
+import { Component, OnInit, EventEmitter} from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, ValidationErrors} from '@angular/forms';
+interface FormClass{
+  id: string, title: string, subMessage: string, password?: boolean, left?:boolean, right?:boolean
 }
+
+
+export const checkConfirmPassword: any = (control: FormGroup): void => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+
+  password.dirty && confirmPassword.dirty && password.value !== confirmPassword.value ? confirmPassword.setErrors({ match: true }) : null;
+};
+
 @Component({
   selector: 'sw-join-page',
   templateUrl: './join-page.component.html',
   styleUrls: ['./join-page.component.scss']
 })
+
 export class JoinPageComponent implements OnInit {
-  form;
-  formClass:Array<FormClasses> = [
-    {class : 'id', korean:'아이디'},
-    {class : 'password', korean:'비밀번호'},
-    {class : 'passwordConfirmation', korean:'비밀번호 확인'},
-    {class : 'name', korean:'이름'},
-    {class : 'gradeNum', korean:'학번'},
-    {class : 'affiliation', korean:'소속'},
-    {class : 'email', korean:'E-mail'}
+  joinForm;
+  formSelected = new EventEmitter();
+  formClass:Array<FormClass> = [
+        {id : 'id', title:'아이디', subMessage:'4글자 이상, 영문 숫자 조합'},
+        {id : 'password', title:'비밀번호', subMessage:'8글자 이상, 영문 숫자 특수문자 조합', password: true, left: true},
+        {id : 'confirmPassword', title:'비밀번호 확인', subMessage:'비밀번호와 일치하게 적어주세요', password: true, right: true},
+        {id : 'name', title:'이름', subMessage:'ex)홍길동'},
+        {id : 'gradeNum', title:'학번', subMessage:'ex)2021039000'},
+        {id : 'COC', title:'단과대학', subMessage:''},
+        {id : 'department', title:'학과', subMessage:''},
+        {id : 'email', title:'이메일', subMessage:'ex)example23@sample.com'}
   ];
 
   formErrorMessages = {
     'id': {
-      'required': '아이디는 필수항목입니다.',
-      'pattern': '4~12글자 입력해주세요.',
+      'pattern': '입력 불가능한 문자가 포함되어 있습니다.',
+      'duplicationCheck' : '중복검사를 해주세요.',
+      'duplication' : '중복된 아이디 입니다.',
     },
     'name': {
-      'required': '이름은 필수항목입니다.',
       'pattern': '2글자 이상 입력해주세요.',
-      'duplication' : '이미 가입된 아이디 입니다.',
-      'duplicationCheck' : '중복검사를 해주세요.'
     },
     'email': {
-      'required': '이메일은 필수항목입니다.',
       'pattern': '올바른 이메일 형식이 아닙니다.',
-      'duplication' : '이미 가입된 이메일입니다.',
+      'duplication' : '이미 가입된 정보입니다.',
     },
     'password': {
-      'required': '비밀번호는 필수항목입니다.',
-      'pattern': '최소 8자이상 숫자와 문자를 포함해주세요.',
+      'pattern': '8글자 이상 숫자와 문자 및 특수문자를 포함해주세요.',
     },
-    'passwordConfirmation': {
-      'required': '비밀번호 확인은 필수항목입니다.',
-      'match': '비밀번호와 동일하게 입력해주세요.', //4
+    'confirmPassword': {
     },
+    'gradeNum': {
+      'duplication' : '이미 가입된 정보입니다.',
+    },
+    'COC': {
+      'required': '필수항목입니다.',
+    },
+    'department': {
+      'required': '필수항목입니다.',
+    }
   };
 
   formErrors = {
@@ -59,39 +72,34 @@ export class JoinPageComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    ){
-      this.buildForm();
-    }
+    ){}
 
-    
-  buildForm(): void { //1
-    this.form = this.formBuilder.group({
-      id:["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
-      name:["", [Validators.required, Validators.pattern(/^.{4,12}$/)]],
-      email:["", [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      password:["", [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/)]],
-      passwordConfirmation:["", [Validators.required]],
-      gradeNum:["", [Validators.required, Validators.pattern(/^[0-9]{10,10}$/)]],
-      affiliation:["",[Validators.required, Validators.pattern(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$/)]]
-    }, {
-      validator: this.customValidation, //2
-      });
-    this.form.valueChanges.subscribe(data => {});
-  };
-
-  customValidation(group: FormGroup) { //3
-    var password = group.get('password');
-    var passwordConfirmation = group.get('passwordConfirmation');
-    if(password.dirty && passwordConfirmation.dirty && password.value != passwordConfirmation.value){
-        passwordConfirmation.setErrors({'match': true});
-    }
+  updateFormErrors(form: FormGroup, formErrors: any, formErrorMessages: any):void {
   }
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
+
+  ngOnInit(): void { 
+    this.joinForm = new FormGroup({
+    id: new FormControl('', [Validators.required,Validators.minLength(4),Validators.pattern(/^[A-Za-z0-9_\-]{4,}$/)]),
+    name: new FormControl('', [Validators.required,Validators.minLength(2),Validators.pattern(/^[A-Za-z가-힣_\-]{2,}$/)]),
+    password: new FormControl('', [Validators.required,Validators.minLength(8),
+      Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/)]),
+    confirmPassword: new FormControl('', [Validators.required]),
+    gradeNum: new FormControl('', [Validators.required,Validators.pattern(/^[0-9_\-]{10}$/)]),
+    email: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/)]),
+    COC: new FormControl('', Validators.required),
+    department: new FormControl('', Validators.required),
+    },
+    {validators: checkConfirmPassword})
+    this.joinForm.valueChanges.subscribe(data => {
+      this.updateFormErrors(this.joinForm, this.formErrors, this.formErrorMessages);
+    });
   }
-  onSubmit(form:FormGroup ){
-    if(this.form.valid){
-    }
+
+  onSubmit(value: FormGroup){
+    console.log(this.joinForm.getError('match'))
+    if(this.joinForm.valid)console.log("valid");
   }
 }

@@ -77,7 +77,7 @@ body {
   padding-bottom: 150px;
 }
 
-.join-container {
+.form-group {
   border: solid 1px;
   border-radius: 7px;
   width: 400px;
@@ -87,7 +87,7 @@ body {
   padding: 0px 25px 25px;
 }
 
-.name {
+.form-title {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
@@ -108,25 +108,19 @@ input {
   border-radius: 7px;
   background-color: transparent;
   width: 392px;
-  height: 40px;
+  height: 35px;
   font-size: 100%;
   padding-left: 8px;
 }
 
 input:hover {
-  box-shadow: 0px 0px 5px rgba(3,3,3,0.4);
+  box-shadow: 0px 0px 5px rgba(3, 3, 3, 0.4);
   outline: transparent;
 }
 
 input:focus {
   border: solid 1px #333;
   outline: transparent;
-}
-
-.form-field {
-  width: 400px;
-  margin-top: 1px;
-  align-content: center;
 }
 
 button {
@@ -147,16 +141,62 @@ button:hover {
   background-color: #333;
   color: rgb(255, 255, 255);
 }
+
 button:focus {
   outline: transparent;
 }
 
-.message {
+.title {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 500;
-  color: rgb(80, 80, 80);
-  margin-top: 10px;
   font-size: 14px;
+  display: block;
+  color: rgb(80, 80, 80);
   width: 100px;
+}
+
+.sub-message {
+  display: inline;
+  font-family: "Noto Sans KR";
+  font-size: 8px;
+  font-style: italic;
+  width: auto;
+  text-align: right;
+  float: right;
+}
+
+.left-form {
+  float: left;
+  width: 192px;
+  input {
+    width: 186px;
+  }
+}
+
+.right-form {
+  float: right;
+  width: 192px;
+  input {
+    width: 186px;
+  }
+}
+
+.left-message {
+  float: left;
+}
+
+.right-message {
+  float: right;
+}
+
+.form {
+  margin-bottom: 15px;
+}
+
+.ng-invalid.ng-touched:not(.ng-pristine) {
+  border-color: red;
+}
+.ng-invalid.ng-touched:not(.ng-pristine) ~ .sub-message {
+  color: red;
 }
