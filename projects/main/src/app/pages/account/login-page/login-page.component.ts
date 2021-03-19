@@ -3,12 +3,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
+
 @Component({
   selector: 'sw-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
+  form: FormGroup;
+  loading = false;
+  submitted = false;
+  returnURL: string;
 
   loginForm: FormGroup;
 
@@ -38,5 +43,4 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -1,14 +1,17 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { User } from '../../../models/user';
 import { Router } from '@angular/router';
 
-interface FormClass {
-  class: string;
-  korean: string;
-  note?: string;
-}
+
+export const checkConfirmPassword: any = (control: FormGroup): void => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+
+  password.dirty && confirmPassword.dirty && password.value !== confirmPassword.value ? confirmPassword.setErrors({ match: true }) : null;
+};
+
 @Component({
   selector: 'sw-join-page',
   templateUrl: './join-page.component.html',
