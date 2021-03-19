@@ -10,5 +10,5 @@ export interface User {
   password?: string;
   roles: Array<TRole>;
   permissions: Array<TPermission>;
-  info: UserInfo;
+  info?: UserInfo;
 }

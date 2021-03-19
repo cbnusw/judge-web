@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
     const { no, password } = this.loginForm.getRawValue();
 
     this.authService.login(no, password).subscribe(
-      success => this.router.navigateByUrl('/main'),
+      () => this.router.navigateByUrl('/main'),
       err => console.error(err)
     );
   }

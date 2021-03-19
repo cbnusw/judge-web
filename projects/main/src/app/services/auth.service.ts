@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter, take } from 'rxjs/operators';
 import { AuthenticationTokens } from '../models/authentication-tokens';
 import { User } from '../models/user';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService, TOKEN_FLUSH_EVENT, TOKEN_SHARE_EVENT } from './storage.service';
@@ -12,6 +12,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService, TOKEN_FLUSH_EVENT,
 export class AuthService {
 
   private users: User[] = [];
+  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private meSubject: BehaviorSubject<User> = new BehaviorSubject(null);
   me$: Observable<User> = this.meSubject.asObservable();
 
@@ -23,7 +24,10 @@ export class AuthService {
     // TODO: 추후 삭제
     fetch('/assets/test/users.json')
       .then(res => res.json())
-      .then(users => this.users = users);
+      .then(users => {
+        this.users = users;
+        this.loadingSubject.next(false);
+      });
 
     if (this.loggedIn) {
       this.init();
@@ -43,6 +47,12 @@ export class AuthService {
     if (this.users.find(u => u.no === user.no)) {
       throw new Error('REG_NUMBER_USED');
     }
+
+    user.roles = ['student'];
+    user.permissions = [];
+    user.info.no = user.no;
+    user.info.roles = user.roles;
+
     this.users.push(user);
     return of(true);
   }
@@ -76,8 +86,18 @@ export class AuthService {
   }
 
   getMe(): void {
-    const index = this.storageService.get(ACCESS_TOKEN_KEY);
-    this.meSubject.next(this.users[+index]);
+    this.loadingSubject.pipe(
+      filter(loading => !loading),
+      take(1)
+    ).subscribe(
+      () => {
+        const index = this.storageService.get(ACCESS_TOKEN_KEY);
+        console.log(index);
+        const user = this.users[+index];
+        console.log(user);
+        this.meSubject.next(this.users[+index]);
+      }
+    );
   }
 
   private initTokens({ accessToken, refreshToken }: AuthenticationTokens): void {

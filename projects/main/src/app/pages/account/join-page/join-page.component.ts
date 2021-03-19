@@ -51,7 +51,7 @@ export class JoinPageComponent implements OnInit {
     const user: User = this.joinForm.getRawValue();
 
     this.authService.join(user).subscribe(
-      success => this.router.navigateByUrl('/account/login'),
+      () => this.router.navigateByUrl('/account/login'),
       err => console.log(err)
     );
   }

@@ -14,7 +14,9 @@ export const TOKEN_FLUSH_EVENT = 'TOKEN_FLUSH';
 export class StorageService {
   storage = sessionStorage;
 
-  constructor() { }
+  constructor() {
+    this.init();
+  }
 
   get<R>(key: string): R {
     const value = this.storage.getItem(key);

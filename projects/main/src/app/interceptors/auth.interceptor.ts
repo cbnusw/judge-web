@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(err => {
         if (err.error.code === 'ACCESS_TOKEN_EXPIRED') {
-          return this.handle401Error(request, next);
+          return this.refreshToken(request, next);
         } else if (err.error.status === 401) {
           this.router.navigateByUrl('/account/login');
         }
@@ -50,7 +50,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return request;
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  private refreshToken(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);

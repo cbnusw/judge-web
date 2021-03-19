@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   hiddenSideMenu: boolean;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private sideMenuService: SideMenuService,
   ) {
     this.hiddenSideMenu = this.sideMenuService.hidden;
