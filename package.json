@@ -8,7 +8,7 @@
     "build": "npx npm-run-all build:app",
     "build:app": "npx npm-run-all --parallel build:app:*",
     "build:app:main": "npx ng build --prod --aot main",
-    "build:gh-pages": "npx ng build --prod --output-path docs --base-href=/main/ main",
+    "build:gh-pages": "npx ng build --prod --output-path docs --base-href=/judge-web/ main",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
