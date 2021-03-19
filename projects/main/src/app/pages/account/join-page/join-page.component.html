@@ -1,33 +1,85 @@
-<body>
-  <div class="join-container">
-    <h2 class="name no-drag">회원가입</h2>
-    <form [formGroup]='joinForm' (ngSubmit)='onSubmit(joinForm.value)'>
-      <ng-container class="form-field" *ngFor="let classInfo of formClass">
+<div class="join-container mat-elevation-z1">
+  <h2 class="name no-drag">회원가입</h2>
+  <form [formGroup]="joinForm" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>학번/교번</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="no"
+        placeholder="Ex. 20210010001"
+      />
+      <mat-hint>본인의 학번 또는 교번을 입력하세요.</mat-hint>
+    </mat-form-field>
 
-        <div *ngIf="classInfo.class !== 'password'  ">
-            <div class="text-align">
-            <label class="message no-drag" [for]="classInfo.class">{{classInfo.korean}}</label>
-            <div class="sub-message no-drag">{{classInfo.note}}</div>
-            </div>
-          <input class= input-field [id]="classInfo.class" 
-            [type]="classInfo.class === 'password' ? 'password' : 'text'" 
-            [formControlName]="classInfo.class">
-        </div>
+    <mat-form-field>
+      <mat-label>비밀번호</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+        placeholder="Ex. 영문 대소문자, 숫자, 특수문자 조합"
+      />
+      <mat-hint>비밀번호를 입력하세요.</mat-hint>
+    </mat-form-field>
 
-        <div *ngIf="classInfo.class == 'password'" class="password-field">
-            <div class="text-align">
-            <label class="message no-drag">비밀번호</label>
-            <div class="sub-message no-drag">8~16글자</div>
-            </div>
-              <input class="password" id="password"
-                type="password" 
-                formControlName="password">
-              <input class="confirmPassword" id="ConfirmPassword" 
-                type="password" 
-                formControlName="password">
-            </div>
-      </ng-container>
-      <button class="button" type="submit" >회원가입</button>
-    </form>
-  </div>
-</body>
+    <mat-form-field>
+      <mat-label>비밀번호 확인</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="confirmPassword"
+        placeholder="비밀번호 한번 더 입력"
+      />
+      <mat-hint>비밀번호를 한번 더 입력해주세요.</mat-hint>
+    </mat-form-field>
+
+    <div formGroupName="info">
+      <mat-form-field>
+        <mat-label>이름</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="name"
+          placeholder="Ex. 홍길동"
+        />
+        <mat-hint>본인의 본명을 입력해주세요.</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>이메일</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="email"
+          placeholder="Ex. hong@cbnu.ac.kr"
+        />
+        <mat-hint>본인의 이메일을 입력해주세요.</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>휴대폰번호</mat-label>
+        <input
+          type="tel"
+          matInput
+          formControlName="phone"
+          placeholder="Ex. 01012341234"
+        />
+        <mat-hint>본인의 휴대폰번호를 숫자로만 입력해주세요.</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>소속학과(부)</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="department"
+          placeholder="Ex. 소프트웨어학과"
+        />
+        <mat-hint>본인의 소속학과(부)를 입력해주세요.</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <button mat-flat-button color="primary" type="submit">회원가입</button>
+  </form>
+</div>

@@ -1,19 +1,13 @@
-import { Component, OnInit, EventEmitter} from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-interface FormObject {
-  id: string,
-  name: string,
-  password: string,
-  confirmPassword: string,
-  gradeNum: string,
-  email: string,
-  affiliation: string
-}
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
+import { User } from '../../../models/user';
+import { Router } from '@angular/router';
 
-interface FormClass{
-  class: string,
-  korean: string,
-  note?: string
+interface FormClass {
+  class: string;
+  korean: string;
+  note?: string;
 }
 @Component({
   selector: 'sw-join-page',
@@ -22,35 +16,40 @@ interface FormClass{
 })
 
 export class JoinPageComponent implements OnInit {
-  joinForm;
-  formSelected = new EventEmitter();
-  formClass:Array<FormClass> = [
-    {class : 'id', korean:'아이디', note:'4~12글자'},
-    {class : 'password', korean:'비밀번호', note:'8글자 이상, 영문과 숫자 조합'},
-    {class : 'name', korean:'이름'},
-    {class : 'gradeNum', korean:'학번'},
-    {class : 'affiliation', korean:'소속'},
-    {class : 'email', korean:'E-mail'}
-  ];
+
+  joinForm: FormGroup;
+
   constructor(
-    private formBuilder: FormBuilder,
-    ){
-      this.joinForm = this.formBuilder.group({
-        id: '',
-        name: '',
-        password: '',
-        gradeNum: '',
-        email: '',
-        affiliation: ''
+    private authService: AuthService,
+    private router: Router,
+    formBuilder: FormBuilder,
+  ) {
+    this.joinForm = formBuilder.group({
+      no: [null],
+      password: [null],
+      confirmPassword: [null],
+      info: formBuilder.group({
+        name: [null],
+        email: [null],
+        phone: [null],
+        department: [null],
       })
-    }
+    });
+  }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
-
-
   }
-  onSubmit(value: FormObject ){
 
+  submit(): void {
+    if (this.joinForm.invalid) {
+      return;
+    }
+
+    const user: User = this.joinForm.getRawValue();
+
+    this.authService.join(user).subscribe(
+      success => this.router.navigateByUrl('/account/login'),
+      err => console.log(err)
+    );
   }
 }

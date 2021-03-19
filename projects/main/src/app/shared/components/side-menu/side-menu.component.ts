@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
+import { SideMenuService } from '../../services/side-menu.service';
 
-interface MenuList{
-  name:string,
-  link:string
+interface Menu {
+  name: string;
+  link: string;
 }
 
 
@@ -12,30 +15,29 @@ interface MenuList{
   styleUrls: ['./side-menu.component.scss'],
 })
 
-export class SideMenuComponent implements OnInit {
-  constructor() {}
-  lists: MenuList[];
-  
-  logOut:MenuList[]=[
-    {name:'noneLogin1',link:"#"}, 
-    {name:'로그인페이지',link:"/account/login"},
-    {name:'회원가입페이지',link:"/account/join"}];
-  
-  logIn:MenuList[]=[
-    {name:'Login1',link:"#"},
-    {name:'Login2',link:"#"},
-    {name:'Login3',link:"#"}]
-  
-  loginStatus:Boolean=false;
+export class SideMenuComponent implements AfterViewInit, OnDestroy {
 
+  private subscription: Subscription;
 
-  setLogin(status:Boolean){
-    this.loginStatus=status;
-    if(status==true) this.lists=this.logIn;
-    else this.lists=this.logOut;
+  menuGroup: Array<Menu> = [
+    { name: 'HOME', link: '/main' },
+    { name: 'CONTESTS', link: '/contests' },
+    { name: 'ABOUT', link: '/about' },
+    { name: 'HELP', link: '/help' },
+    { name: 'CONTACT', link: '/contact' },
+  ];
+
+  @ViewChild(MatDrawer) drawer: MatDrawer;
+
+  constructor(private sideMenuService: SideMenuService) { }
+
+  ngAfterViewInit(): void {
+    this.subscription = this.sideMenuService.hidden$.subscribe(hidden => {
+      hidden ? this.drawer.close() : this.drawer.open();
+    });
   }
 
-  ngOnInit(): void {
-    this.lists=this.logOut;
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

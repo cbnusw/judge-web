@@ -1,82 +1,27 @@
-<!DOCTYPE html>
-<html lang="ko">
+<div class="login-container mat-elevation-z1">
+  <h2 class="name no-drag">로그인</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>학번/교번</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="no"
+        placeholder="Ex. 20210010001"
+      />
+      <mat-hint>본인의 학번 또는 교번을 입력하세요.</mat-hint>
+    </mat-form-field>
 
-<head>
-  <meta charset="UTF-8">
-
-</head>
-
-<body>
-  <div class="menu">
-    <img src="../../../../assets/login.jpg">
-  </div>
-  <div class="mask-wrapper">
-    <div class="auth-group">
-      <div class="close-group">
-        <span class="close-btn icon-baseline-close-px iconfont"></span>
-      </div>
-      <div class=" auth-scroll-wrapper">
-        <div class="scroll-wrapper">
-          <div class="auth-group signin-group">
-            <div class="auth-info">
-              <div class="title-group">
-                <span class="title">로그인</span>
-                <a href="javascript: void(0);" class="switch">회원가입></a>
-              </div>
-              <div class="form-group">
-                <div class="input-group">
-                  <input type="text" class="form-control" name="classnumber" placeholder="학번/교직원번호 입력">
-                </div>
-                <div class="input-group">
-                  <input type="password" class="form-control" name="password" placeholder="비밀번호 입력">
-                </div>
-                <div class="input-group">
-                  <span class="remember-label">
-                    <input type="checkbox" class="remember" value="1"> 계정정보 저장 </span>
-                  <a href="javascript: void(0);" class="switch" style="position: relative; left: 80px; color: grey;">
-                    비밀번호를 잊으셨나요?</a>
-                </div>
-                <div class="input-group">
-                  <input type="submit" class="submit" value="로그인">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="auth-group signup-group">
-            <div class="auth-info">
-              <div class="title-group">
-                <span class="title">Please register</span>
-                <a href="javascript: void(0);" class="switch">Log in now></a>
-              </div>
-              <div class="form-group">
-                <div class="input-group">
-                  <input type="text" class="form-control" name="classnumber" placeholder="Please enter phone number">
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" name="username" placeholder="please enter user name">
-                </div>
-                <div class="input-group">
-                  <input type="password" class="form-control" name="password" placeholder="Please enter password">
-                </div>
-                <div class="input-group">
-                  <input type="password" class="form-control" name="repeat-password" placeholder="confirm password">
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-code" name="graphic-code" placeholder="Captcha">
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-code" name="message-code" placeholder="SMS verification code">
-                </div>
-                <div class="input-group">
-                  <input type="submit" class="submit" value="Sign up now">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-
-</html>
+    <mat-form-field>
+      <mat-label>비밀번호</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+        placeholder="Ex. 영문 대소문자, 숫자, 특수문자 조합"
+      />
+      <mat-hint>비밀번호를 입력하세요.</mat-hint>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit">로그인</button>
+  </form>
+</div>

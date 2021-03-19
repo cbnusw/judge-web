@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
+import { SideMenuService } from '../../services/side-menu.service';
 
 
 @Component({
@@ -8,7 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  hiddenSideMenu: boolean;
+
+  constructor(
+    private authService: AuthService,
+    private sideMenuService: SideMenuService,
+  ) {
+    this.hiddenSideMenu = this.sideMenuService.hidden;
+  }
+
+  toggleSideMenu(): void {
+    this.hiddenSideMenu = !this.hiddenSideMenu;
+    this.sideMenuService.hidden = this.hiddenSideMenu;
+  }
 
   ngOnInit(): void {
   }

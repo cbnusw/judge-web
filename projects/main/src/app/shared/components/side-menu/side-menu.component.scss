@@ -1,51 +1,32 @@
-:host {
-  display: block;
+@import "variables";
+
+.container {
+  height: 100%;
 }
 
-$header-height: 60px;
-$side-menu-width: 200px;
-$hover-color: #c1c3eb;
+.nav {
+  width: 200px;
+  height: 100%;
+  overflow-y: auto;
+}
 
-.menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: $header-height 0;
+.nav-item {
+  padding: 0.5em 1em;
 
-  &::before {
-    content: " ";
-    display: block;
-    width: 100px;
-    height: 100px;
-    background-image: url("../../../../assets/logo_example.svg");
-    background-size: 100px 100px;
+  &:first-child {
+    margin-top: $header-height;
   }
 
-  li {
-    button {
-      background: inherit;
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
-      padding: 0;
-      overflow: visible;
-    }
-    a {
-      text-decoration: none;
-      color: black;
-    }
+  a {
+    color: #333;
+    text-decoration: none;
 
-    &:not(:first-child):hover {
-      & a {
-        color: rgba(#fff, 0.9);
-      }
-      background-color: $hover-color;
+    &:hover {
+      font-weight: bold;
     }
-    width: $side-menu-width;
-    height: $header-height;
-    line-height: $header-height;
-    text-align: center;
-    cursor: pointer;
+  }
+
+  &.active {
+    font-weight: bold;
   }
 }
