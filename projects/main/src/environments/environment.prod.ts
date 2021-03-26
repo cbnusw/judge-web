@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  authHost: 'https://swauth.cbnu.ac.kr',
 };
