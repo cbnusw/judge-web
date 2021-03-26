@@ -10,6 +10,9 @@
         placeholder="Ex. 20210010001"
       />
       <mat-hint>본인의 학번 또는 교번을 입력하세요.</mat-hint>
+      <mat-error *ngIf="joinForm.get('no').errors?.pattern || joinForm.get('no').errors?.required">
+        자신의 학번 10자리를 입력해주세요.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -21,6 +24,9 @@
         placeholder="Ex. 영문 대소문자, 숫자, 특수문자 조합"
       />
       <mat-hint>비밀번호를 입력하세요.</mat-hint>
+      <mat-error *ngIf="joinForm.get('password').errors?.pattern || joinForm.get('password').errors?.required">
+        비밀번호는 영문 대소문자, 숫자, 특수문자 조합 8자 이상입니다.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -32,6 +38,9 @@
         placeholder="비밀번호 한번 더 입력"
       />
       <mat-hint>비밀번호를 한번 더 입력해주세요.</mat-hint>
+      <mat-error *ngIf="joinForm.errors?.match || joinForm.get('confirmPassword').errors?.required">
+        비밀번호와 동일하게 입력해주세요.
+      </mat-error>
     </mat-form-field>
 
     <div formGroupName="info">
@@ -44,6 +53,9 @@
           placeholder="Ex. 홍길동"
         />
         <mat-hint>본인의 본명을 입력해주세요.</mat-hint>
+        <mat-error *ngIf="joinForm.get('info').get('name').errors?.pattern || joinForm.get('info').get('name').errors?.required">
+          올바른 이름을 입력해주세요.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -55,6 +67,12 @@
           placeholder="Ex. hong@cbnu.ac.kr"
         />
         <mat-hint>본인의 이메일을 입력해주세요.</mat-hint>
+        <mat-error *ngIf="joinForm.get('info').get('email').hasError('email') && !joinForm.get('info').get('email').hasError('required')">
+          이메일 형식이 아닙니다.
+        </mat-error>
+        <mat-error *ngIf="joinForm.get('info').get('email').hasError('required')">
+          이메일은 필수항목입니다.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -66,6 +84,9 @@
           placeholder="Ex. 01012341234"
         />
         <mat-hint>본인의 휴대폰번호를 숫자로만 입력해주세요.</mat-hint>
+        <mat-error *ngIf="joinForm.get('info').get('phone').errors?.pattern || joinForm.get('info').get('phone').errors?.required">
+          휴대폰 번호를 '-'를 제외하고 입력해주세요.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -77,6 +98,9 @@
           placeholder="Ex. 소프트웨어학과"
         />
         <mat-hint>본인의 소속학과(부)를 입력해주세요.</mat-hint>
+        <mat-error *ngIf="joinForm.get('info').get('department').hasError('required')">
+          소속학과(부)를 입력해주세요.
+        </mat-error>
       </mat-form-field>
     </div>
 
