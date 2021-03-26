@@ -42,15 +42,6 @@ export class AuthService {
       map(res => res.success)
     );
   }
-  checkDuplicate(user: User){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-    return this.http.post<{no:boolean, email:boolean, phone:boolean}>(`${this.BASE_URL}/join/check`, user, httpOptions)
-    
-  }
 
   login(no: string, password: string): Observable<boolean> {
     // TODO: 추후 실 서버로 연동
