@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -41,6 +41,15 @@ export class AuthService {
     return this.http.post<Response<undefined>>(`${this.BASE_URL}/join`, user).pipe(
       map(res => res.success)
     );
+  }
+  checkDuplicate(user: User){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+    return this.http.post<{no:boolean, email:boolean, phone:boolean}>(`${this.BASE_URL}/join/check`, user, httpOptions)
+    
   }
 
   login(no: string, password: string): Observable<boolean> {

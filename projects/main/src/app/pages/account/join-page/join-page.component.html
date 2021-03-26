@@ -41,8 +41,11 @@
         placeholder="비밀번호 한번 더 입력"
       />
       <mat-hint>비밀번호를 한번 더 입력해주세요.</mat-hint>
-      <mat-error *ngIf="joinForm.errors?.match || joinForm.get('confirmPassword').errors?.required">
+      <mat-error *ngIf="joinForm.get('confirmPassword').errors?.match">
         비밀번호와 동일하게 입력해주세요.
+      </mat-error>
+      <mat-error *ngIf="joinForm.get('confirmPassword').errors?.required">
+        필수항목입니다.
       </mat-error>
     </mat-form-field>
 
