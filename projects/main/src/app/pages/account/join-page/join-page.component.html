@@ -13,6 +13,9 @@
       <mat-error *ngIf="joinForm.get('no').errors?.pattern || joinForm.get('no').errors?.required">
         자신의 학번 10자리를 입력해주세요.
       </mat-error>
+      <mat-error *ngIf="joinForm.get('no').errors?.duplicate">
+        이미 등록된 정보입니다.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -52,7 +55,7 @@
           formControlName="name"
           placeholder="Ex. 홍길동"
         />
-        <mat-hint>본인의 본명을 입력해주세요.</mat-hint>
+        <mat-hint >본인의 본명을 입력해주세요.</mat-hint>
         <mat-error *ngIf="joinForm.get('info').get('name').errors?.pattern || joinForm.get('info').get('name').errors?.required">
           올바른 이름을 입력해주세요.
         </mat-error>
@@ -73,6 +76,9 @@
         <mat-error *ngIf="joinForm.get('info').get('email').hasError('required')">
           이메일은 필수항목입니다.
         </mat-error>
+        <mat-error *ngIf="joinForm.get('info').get('email').errors?.duplicate">
+          이미 등록된 정보입니다.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -86,6 +92,9 @@
         <mat-hint>본인의 휴대폰번호를 숫자로만 입력해주세요.</mat-hint>
         <mat-error *ngIf="joinForm.get('info').get('phone').errors?.pattern || joinForm.get('info').get('phone').errors?.required">
           휴대폰 번호를 '-'를 제외하고 입력해주세요.
+        </mat-error>
+        <mat-error *ngIf="joinForm.get('info').get('phone').errors?.duplicate">
+          이미 등록된 정보입니다.
         </mat-error>
       </mat-form-field>
 

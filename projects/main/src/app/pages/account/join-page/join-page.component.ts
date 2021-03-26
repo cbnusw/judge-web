@@ -23,6 +23,7 @@ export class JoinPageComponent implements OnInit {
 
   joinForm: FormGroup;
 
+  
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -57,7 +58,17 @@ export class JoinPageComponent implements OnInit {
 
     this.authService.join(user).subscribe(
       () => this.router.navigateByUrl('/account/login'),
-      err => console.log(err)
+      err => { console.log(err);
+        if(err.error.code ==="REG_NUMBER_USED"){
+          this.joinForm.get('no').setErrors({'duplicate':true});
+        }
+        if(err.error.code ==="PHONE_NUMBER_USED"){
+          this.joinForm.get('info').get('phone').setErrors({'duplicate':true})
+        }
+        if(err.error.code ==="EMAIL_USED"){
+          this.joinForm.get('info').get('email').setErrors({'duplicate':true})
+        }
+      }
     );
   }
 }
