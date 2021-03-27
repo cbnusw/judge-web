@@ -18,7 +18,10 @@
     ><a routerLink="/my-page">{{ authService.me?.info.name }}</a
     >님 로그인 중</span
   >
-  <a class="account" (click)="authService.logout()" *ngIf="authService.loggedIn"
+  <a
+    class="account cursor pointer"
+    (click)="authService.logout()"
+    *ngIf="authService.loggedIn"
     >로그아웃</a
   >
 </mat-toolbar>
