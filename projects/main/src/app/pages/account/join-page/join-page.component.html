@@ -1,20 +1,25 @@
 <div class="join-container mat-elevation-z1">
   <h2 class="name no-drag">회원가입</h2>
-  <form [formGroup]="joinForm" (ngSubmit)="submit()">
+  <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <mat-form-field>
       <mat-label>학번/교번</mat-label>
       <input
         type="text"
         matInput
         formControlName="no"
+        [errorStateMatcher]="errorMatcher"
         placeholder="Ex. 20210010001"
+        required
       />
       <mat-hint>본인의 학번 또는 교번을 입력하세요.</mat-hint>
-      <mat-error *ngIf="joinForm.get('no').errors?.pattern || joinForm.get('no').errors?.required">
-        자신의 학번 10자리를 입력해주세요.
+      <mat-error *ngIf="hasError('required', 'no')">
+        학번 또는 교번은 필수항목입니다.
       </mat-error>
-      <mat-error *ngIf="joinForm.get('no').errors?.duplicate">
-        이미 등록된 정보입니다.
+      <mat-error *ngIf="hasError('pattern', 'no')">
+        잘못된 형식의 학번 또는 교번입니다.
+      </mat-error>
+      <mat-error *ngIf="hasSubmissionError('no')">
+        {{ submissionErrorMessage }}
       </mat-error>
     </mat-form-field>
 
@@ -24,10 +29,15 @@
         type="password"
         matInput
         formControlName="password"
+        [errorStateMatcher]="errorMatcher"
         placeholder="Ex. 영문 대소문자, 숫자, 특수문자 조합"
+        required
       />
       <mat-hint>비밀번호를 입력하세요.</mat-hint>
-      <mat-error *ngIf="joinForm.get('password').errors?.pattern || joinForm.get('password').errors?.required">
+      <mat-error *ngIf="hasError('required', 'password')">
+        비밀번호는 필수항목입니다.
+      </mat-error>
+      <mat-error *ngIf="hasError('pattern', 'password')">
         비밀번호는 영문 대소문자, 숫자, 특수문자 조합 8자 이상입니다.
       </mat-error>
     </mat-form-field>
@@ -38,14 +48,16 @@
         type="password"
         matInput
         formControlName="confirmPassword"
+        [errorStateMatcher]="confirmPasswordMatcher"
         placeholder="비밀번호 한번 더 입력"
+        required
       />
       <mat-hint>비밀번호를 한번 더 입력해주세요.</mat-hint>
-      <mat-error *ngIf="joinForm.get('confirmPassword').errors?.match">
-        비밀번호와 동일하게 입력해주세요.
+      <mat-error *ngIf="hasError('required', 'confirmPassword')">
+        비밀번호를 확인해주세요.
       </mat-error>
-      <mat-error *ngIf="joinForm.get('confirmPassword').errors?.required">
-        필수항목입니다.
+      <mat-error *ngIf="hasError('confirmPassword')">
+        비밀번호와 동일하게 입력해주세요.
       </mat-error>
     </mat-form-field>
 
@@ -56,10 +68,15 @@
           type="text"
           matInput
           formControlName="name"
+          [errorStateMatcher]="errorMatcher"
           placeholder="Ex. 홍길동"
+          required
         />
-        <mat-hint >본인의 본명을 입력해주세요.</mat-hint>
-        <mat-error *ngIf="joinForm.get('info').get('name').errors?.pattern || joinForm.get('info').get('name').errors?.required">
+        <mat-hint>본인의 본명을 입력해주세요.</mat-hint>
+        <mat-error *ngIf="hasError('required', ['info', 'name'])">
+          이름은 필수항목입니다.
+        </mat-error>
+        <mat-error *ngIf="hasError('pattern', ['info', 'name'])">
           올바른 이름을 입력해주세요.
         </mat-error>
       </mat-form-field>
@@ -70,17 +87,19 @@
           type="email"
           matInput
           formControlName="email"
+          [errorStateMatcher]="errorMatcher"
           placeholder="Ex. hong@cbnu.ac.kr"
+          required
         />
         <mat-hint>본인의 이메일을 입력해주세요.</mat-hint>
-        <mat-error *ngIf="joinForm.get('info').get('email').hasError('email') && !joinForm.get('info').get('email').hasError('required')">
-          이메일 형식이 아닙니다.
-        </mat-error>
-        <mat-error *ngIf="joinForm.get('info').get('email').hasError('required')">
+        <mat-error *ngIf="hasError('required', ['info', 'email'])">
           이메일은 필수항목입니다.
         </mat-error>
-        <mat-error *ngIf="joinForm.get('info').get('email').errors?.duplicate">
-          이미 등록된 정보입니다.
+        <mat-error *ngIf="hasError('pattern', ['info', 'email'])">
+          올바른 이메일 형식이 아닙니다.
+        </mat-error>
+        <mat-error *ngIf="hasSubmissionError(['info', 'email'])">
+          {{ submissionErrorMessage }}
         </mat-error>
       </mat-form-field>
 
@@ -90,14 +109,19 @@
           type="tel"
           matInput
           formControlName="phone"
+          [errorStateMatcher]="errorMatcher"
           placeholder="Ex. 01012341234"
+          required
         />
         <mat-hint>본인의 휴대폰번호를 숫자로만 입력해주세요.</mat-hint>
-        <mat-error *ngIf="joinForm.get('info').get('phone').errors?.pattern || joinForm.get('info').get('phone').errors?.required">
-          휴대폰 번호를 '-'를 제외하고 입력해주세요.
+        <mat-error *ngIf="hasError('pattern', ['info', 'phone'])">
+          잘못된 형식의 휴대폰번호입니다.
         </mat-error>
-        <mat-error *ngIf="joinForm.get('info').get('phone').errors?.duplicate">
-          이미 등록된 정보입니다.
+        <mat-error *ngIf="hasError('required', ['info', 'phone'])">
+          휴대폰 번호는 필수항목입니다.
+        </mat-error>
+        <mat-error *ngIf="hasSubmissionError(['info', 'phone'])">
+          {{ submissionErrorMessage }}
         </mat-error>
       </mat-form-field>
 
@@ -107,10 +131,12 @@
           type="text"
           matInput
           formControlName="department"
+          [errorStateMatcher]="errorMatcher"
           placeholder="Ex. 소프트웨어학과"
+          required
         />
         <mat-hint>본인의 소속학과(부)를 입력해주세요.</mat-hint>
-        <mat-error *ngIf="joinForm.get('info').get('department').hasError('required')">
+        <mat-error *ngIf="hasError('required', ['info', 'department'])">
           소속학과(부)를 입력해주세요.
         </mat-error>
       </mat-form-field>

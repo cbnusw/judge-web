@@ -5,10 +5,11 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService } from '../services/storage.service';
-import { Router } from '@angular/router';
+import { ERROR_CODES } from '../constants/error-codes';
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(err => {
-        if (err.error.code === 'ACCESS_TOKEN_EXPIRED') {
+        if (err.error.code === ERROR_CODES.ACCESS_TOKEN_EXPIRED) {
           return this.refreshToken(request, next);
         } else if (err.error.status === 401) {
           this.router.navigateByUrl('/account/login');
