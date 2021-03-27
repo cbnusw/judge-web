@@ -18,6 +18,16 @@ export class StorageService {
     this.init();
   }
 
+  set redirectUrl(url: string) {
+    this.set(REDIRECT_URL_KEY, url);
+  }
+
+  get redirectUrl(): string {
+    const url: string = this.get(REDIRECT_URL_KEY);
+    this.remove(REDIRECT_URL_KEY);
+    return url;
+  }
+
   get<R>(key: string): R {
     const value = this.storage.getItem(key);
     return value ? JSON.parse(value) : undefined;

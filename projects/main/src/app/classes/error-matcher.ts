@@ -1,7 +1,6 @@
-import { AbstractControl, FormControl, FormControlName, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { SubmissionError } from './abstract-form.directive';
 
 export interface Matched {
@@ -22,13 +21,7 @@ export class ErrorMatcher implements ErrorStateMatcher {
     this.subscription = submitted$.subscribe(submitted => this.submitted = submitted);
 
     this.subscription.add(
-      submissionError$.pipe(
-        filter(err => !!err.message),
-        distinctUntilChanged((e1, e2) => {
-          const match = Array.isArray(e1.path) && Array.isArray(e2.path) ? e1.path.join('.') === e2.path.join('.') : e1.path === e2.path;
-          return match && e1.message === e2.message;
-        })
-      ).subscribe(err => this.submissionError = err)
+      submissionError$.subscribe(err => this.submissionError = err)
     );
   }
 
