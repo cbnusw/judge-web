@@ -10,6 +10,7 @@ import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService } from '../services/storage.service';
 import { ERROR_CODES } from '../constants/error-codes';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -58,7 +59,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     // TODO: 여기에 인증 서버 URL 추가
-    const url = `/token/refresh`;
+    const url = `${environment.authHost}/token/refresh`;
 
     return from(
       fetch(url, {
