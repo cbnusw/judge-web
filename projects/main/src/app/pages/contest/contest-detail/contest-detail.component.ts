@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap} from '@angular/router';
-import { ContestDetailService, Post } from '../contest-detail.service'
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ContestDetailService, Post } from '../contest-detail.service';
 @Component({
   selector: 'sw-contest-detail',
   templateUrl: './contest-detail.component.html',
@@ -8,9 +8,10 @@ import { ContestDetailService, Post } from '../contest-detail.service'
 })
 export class ContestDetailComponent implements OnInit {
 
-  
-  id: string
-  post:Post
+
+  id: string;
+  post: Post;
+
   constructor(
     private route: ActivatedRoute,
     private detail: ContestDetailService
@@ -18,23 +19,23 @@ export class ContestDetailComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id = params.get('id');
       this.post = this.detail.getContest(+this.id);
-    })
+    });
   }
 
-  page: number = 1;
+  page = 1;
   totalPages: number;
-  isLoaded: boolean = false;
+  isLoaded = false;
 
-  afterLoadComplete(pdfData: any) {
+  afterLoadComplete(pdfData: any): void {
     this.totalPages = pdfData.numPages;
     this.isLoaded = true;
   }
 
-  nextPage() {
+  nextPage(): void {
     this.page++;
   }
 
-  prevPage() {
+  prevPage(): void {
     this.page--;
   }
 
