@@ -1,0 +1,35 @@
+<mat-card class='post-container'>
+  <form>
+  <mat-form-field class='data-picker' appearance="fill">
+    <mat-label>대회 일정을 선택하세요</mat-label>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Start date">
+      <input matEndDate formControlName="end" placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">잘못된 시작날짜 입니다!</mat-error>
+    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">잘못된 종료날짜 입니다!</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>대회 이름</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>대회 내용</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+  <div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone">
+    파일을 끌어다 놓으세요
+ </div>
+ <div style="width: 500px">
+    <mat-file-upload-queue #fileUploadQueue
+        [fileAlias]="'file'"
+        [httpUrl]="'http://localhost:8180/jax-rs-jersey-application-sample'" multiple>
+
+        <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+    </mat-file-upload-queue>
+ </div>
+ <button mat-raised-button color="primary" type="submit">글쓰기</button>
+</form>
+</mat-card>
