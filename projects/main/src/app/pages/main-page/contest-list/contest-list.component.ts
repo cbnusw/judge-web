@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-
+import {ContestDetailService, Post} from '../../contest/contest-detail.service'
 @Component({
   selector: 'sw-contest-list',
   templateUrl: './contest-list.component.html',
   styleUrls: ['./contest-list.component.scss']
 })
 export class ContestListComponent implements OnInit {
-
-  constructor() { }
+  contests:Array<Post>
+  constructor(detail:ContestDetailService) {
+    this.contests = detail.getContests();
+  }
 
   ngOnInit(): void {
   }

@@ -3,37 +3,37 @@
 
   <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <mat-form-field>
-      <mat-label>학번/교번</mat-label>
-      <input
+      <mat-label class='no-drag'>학번/교번</mat-label>
+      <input class='no-drag'
         type="text"
         matInput
         formControlName="no"
         [errorStateMatcher]="errorMatcher"
         placeholder="Ex. 20210010001"
       />
-      <mat-hint>본인의 학번 또는 교번을 입력하세요.</mat-hint>
-      <mat-error *ngIf="hasError('required', 'no')">
+      <mat-hint class='no-drag'>본인의 학번 또는 교번을 입력하세요.</mat-hint>
+      <mat-error class='no-drag' *ngIf="hasError('required', 'no')">
         학번 또는 교번을 입력하세요.
       </mat-error>
-      <mat-error *ngIf="hasSubmissionError('no')">
+      <mat-error class='no-drag' *ngIf="hasSubmissionError('no')">
         {{ submissionErrorMessage }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>비밀번호</mat-label>
-      <input
+      <mat-label class='no-drag'>비밀번호</mat-label>
+      <input class='no-drag'
         type="password"
         matInput
         formControlName="password"
         [errorStateMatcher]="errorMatcher"
         placeholder="Ex. 영문 대소문자, 숫자, 특수문자 조합"
       />
-      <mat-hint>비밀번호를 입력하세요.</mat-hint>
-      <mat-error *ngIf="hasError('required', 'password')">
+      <mat-hint class='no-drag'>비밀번호를 입력하세요.</mat-hint>
+      <mat-error class='no-drag' *ngIf="hasError('required', 'password')">
         비밀번호를 입력하세요.
       </mat-error>
-      <mat-error *ngIf="hasSubmissionError('password')">
+      <mat-error class='no-drag' *ngIf="hasSubmissionError('password')">
         {{ submissionErrorMessage }}
       </mat-error>
     </mat-form-field>

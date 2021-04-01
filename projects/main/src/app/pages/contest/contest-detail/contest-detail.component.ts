@@ -7,36 +7,17 @@ import { ContestDetailService, Post } from '../contest-detail.service';
   styleUrls: ['./contest-detail.component.scss']
 })
 export class ContestDetailComponent implements OnInit {
-
-
-  id: string;
   post: Post;
-
+  pdfReg= /\.pdf$/
+  pictureReg=/\.jpeg$|\.png$|\.jpg/
   constructor(
     private route: ActivatedRoute,
     private detail: ContestDetailService
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('id');
-      this.post = this.detail.getContest(+this.id);
+      this.post = this.detail.getContest(+params.get('id'));
+
     });
-  }
-
-  page = 1;
-  totalPages: number;
-  isLoaded = false;
-
-  afterLoadComplete(pdfData: any): void {
-    this.totalPages = pdfData.numPages;
-    this.isLoaded = true;
-  }
-
-  nextPage(): void {
-    this.page++;
-  }
-
-  prevPage(): void {
-    this.page--;
   }
 
   ngOnInit(): void {

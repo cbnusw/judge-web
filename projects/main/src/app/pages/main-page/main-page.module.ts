@@ -6,6 +6,7 @@ import { ContestListComponent } from './contest-list/contest-list.component';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatSliderModule,
     MatCardModule,
     MatButtonModule,
+    RouterModule
   ],
   exports: [
     MainPageComponent
