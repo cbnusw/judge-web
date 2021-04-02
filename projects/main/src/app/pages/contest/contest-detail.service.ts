@@ -43,7 +43,7 @@ export class ContestDetailService {
       post._id = +this.examples[this.examples.length-1]._id + 1
       post.file = ''
       this.examples.push(post);
-      this.router.navigateByUrl('/main');
+      this.router.navigateByUrl('/contests');
     })
     return simpleObservable.pipe(
       map(res => true)

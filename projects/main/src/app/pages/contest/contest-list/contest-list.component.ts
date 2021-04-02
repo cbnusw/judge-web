@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ContestDetailService, Post} from '../../contest/contest-detail.service'
+import {ContestDetailService, Post} from '../contest-detail.service'
 @Component({
   selector: 'sw-contest-list',
   templateUrl: './contest-list.component.html',

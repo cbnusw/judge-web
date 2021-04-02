@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card'
-import { ContestRoutingModule } from './contest-routing.module';
 import { ContestDetailComponent } from './contest-detail/contest-detail.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ContestPostComponent } from './contest-post/contest-post.component'
@@ -13,12 +12,23 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSliderModule } from '@angular/material/slider';
+import { RouterModule } from '@angular/router';
+import { ContestListComponent } from './contest-list/contest-list.component';
+import { ContestComponent } from './contest.component';
+import { ContestRoutingModule } from './contest-routing.module';
+
+
 
 @NgModule({
-  declarations: [ContestDetailComponent, ContestPostComponent],
+  declarations: [
+    ContestDetailComponent,
+    ContestPostComponent,
+    ContestListComponent,
+    ContestComponent
+  ],
   imports: [
     CommonModule,
-    ContestRoutingModule,
     MatCardModule,
     PdfViewerModule,
     MatFormFieldModule,
@@ -29,7 +39,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatNativeDateModule,
     MatInputModule,
     MatFileUploadModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    MatSliderModule,
+    RouterModule,
+    ContestRoutingModule,
+  ],
+
 })
 export class ContestModule { }
