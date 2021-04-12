@@ -19,17 +19,18 @@
     <mat-label>추가 설명</mat-label>
     <textarea matInput [errorStateMatcher]="errorMatcher" formControlName="content"></textarea>
   </mat-form-field>
-  <div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone">
-    파일을 끌어다 놓으세요
- </div>
- <div style="width: 500px">
-    <mat-file-upload-queue #fileUploadQueue
-        [fileAlias]="'file'"
-        [httpUrl]="'http://localhost:8180/jax-rs-jersey-application-sample'" multiple>
-
-        <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
-    </mat-file-upload-queue>
- </div>
- <button mat-raised-button color="primary" type="submit">글쓰기</button>
+  <div
+  class="file-input cursor"
+  [class.pointer]="!disabled"
+  appFileChooser
+  (filesChange)="handleFiles($event)"
+  accept="*"
+  [multiple]="true"
+  [disabled]="disabled"
+>파일 제출
+</div>
+<div class="button-wrapper">
+  <button mat-raised-button color="primary" type="submit">글쓰기</button>
+</div>
 </form>
 </mat-card>

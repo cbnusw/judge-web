@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { ContestListComponent } from './contest-list/contest-list.component';
 import { ContestComponent } from './contest.component';
 import { ContestRoutingModule } from './contest-routing.module';
+import { FileModule } from '../../directives/file/file.module';
 
 
 
@@ -43,6 +44,7 @@ import { ContestRoutingModule } from './contest-routing.module';
     MatSliderModule,
     RouterModule,
     ContestRoutingModule,
+    FileModule,
   ],
 
 })

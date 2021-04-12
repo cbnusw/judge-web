@@ -5,7 +5,6 @@ import { MainPageComponent } from './main-page.component';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-
 @NgModule({
   declarations: [
     MainPageComponent,
@@ -20,4 +19,4 @@ import {MatButtonModule} from '@angular/material/button';
     MainPageComponent
   ]
 })
-export class MainPageModule { }
+export class MainPageModule {}

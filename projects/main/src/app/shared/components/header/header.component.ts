@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   toggleSideMenu(): void {
     this.hiddenSideMenu = !this.hiddenSideMenu;
     this.sideMenuService.hidden = this.hiddenSideMenu;
+    
   }
 
   ngOnInit(): void {
