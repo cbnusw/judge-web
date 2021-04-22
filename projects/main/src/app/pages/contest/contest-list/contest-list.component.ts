@@ -1,32 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { ContestDetailService, Post } from '../contest-detail.service'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService } from '../../../services/storage.service';
+import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { Subscription } from 'rxjs';
+import { ACCESS_TOKEN_KEY, StorageService } from '../../../services/storage.service';
+
 @Component({
   selector: 'sw-contest-list',
   templateUrl: './contest-list.component.html',
   styleUrls: ['./contest-list.component.scss']
 })
 export class ContestListComponent implements OnInit {
+  private readonly BASE_URL = environment.authHost;
+  subscription: Subscription;
   contests: Array<Post>
-  constructor(detail: ContestDetailService) {
+  constructor(private http: HttpClient, detail: ContestDetailService) {
     this.contests = detail.getContests();
+    this.http = http;
   }
 
   //enrolling User
   protected enrollUser = function (_id: any) {
-
-    //testing code
     const storageService = new StorageService;
-    const refreshToken: string = storageService.get(REFRESH_TOKEN_KEY);
-    const accessToken: string = storageService.get(ACCESS_TOKEN_KEY);
-    console.log(` id :  ${_id}  token : ${refreshToken} ${accessToken}`);
+    const token = storageService.get(ACCESS_TOKEN_KEY);
 
-    //real code
-    const enrollInfo: EnrollInfo = {
-      _id: `${_id}`,
-      accessToken: `${accessToken}`,
-      refreshToken: `${refreshToken},`
-    };
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    });
+    let options = { headers: headers };
+    this.subscription = this.http.post('http://localhost:3001/v1/contest-enroll', { id: `${_id}` }, options)
+      .subscribe(
+        res => {
+          console.log(res);
+        }
+      )
   }
 
 
@@ -34,10 +42,4 @@ export class ContestListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-}
-
-export interface EnrollInfo {
-  _id: any;
-  accessToken: string;
-  refreshToken: string;
 }
