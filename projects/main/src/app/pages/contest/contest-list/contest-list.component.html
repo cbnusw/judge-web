@@ -13,5 +13,6 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button [routerLink]="['/contests', contest._id]">상세내용</button>
+    <button mat-button (click)="enrollUser(contest._id)">등록하기</button>
   </mat-card-actions>
 </mat-card>
