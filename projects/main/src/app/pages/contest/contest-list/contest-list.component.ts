@@ -14,14 +14,30 @@ export class ContestListComponent implements OnInit {
 
   //enrolling User
   protected enrollUser = function (_id: any) {
+
+    //testing code
     const storageService = new StorageService;
     const refreshToken: string = storageService.get(REFRESH_TOKEN_KEY);
     const accessToken: string = storageService.get(ACCESS_TOKEN_KEY);
     console.log(` id :  ${_id}  token : ${refreshToken} ${accessToken}`);
+
+    //real code
+    const enrollInfo: EnrollInfo = {
+      _id: `${_id}`,
+      accessToken: `${accessToken}`,
+      refreshToken: `${refreshToken},`
+    };
   }
+
 
 
   ngOnInit(): void {
   }
 
+}
+
+export interface EnrollInfo {
+  _id: any;
+  accessToken: string;
+  refreshToken: string;
 }
