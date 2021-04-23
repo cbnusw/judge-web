@@ -20,7 +20,8 @@ import { FileModule } from '../../directives/file/file.module';
 import { ContestApplyComponent } from './contest-apply/contest-apply.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {DialogContentExampleDialog} from './contest-apply/contest-apply.component'
-
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon'
 @NgModule({
   declarations: [
     ContestDetailComponent,
@@ -31,6 +32,8 @@ import {DialogContentExampleDialog} from './contest-apply/contest-apply.componen
     DialogContentExampleDialog,
   ],
   imports: [
+    MatIconModule,
+    MatListModule,
     CommonModule,
     MatCardModule,
     PdfViewerModule,

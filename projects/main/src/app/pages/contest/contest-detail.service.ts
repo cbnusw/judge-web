@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-
+import { Contest } from '../../models/contest';
+import { Problem } from '../../models/problem';
+import { environment } from '../../../environments/environment';
+import { Response } from '../../models/response';
+import { HttpClient } from '@angular/common/http';
 export interface Post {
   _id: any;
   title: string;
@@ -17,10 +20,11 @@ export interface Post {
   providedIn: 'root'
 })
 export class ContestDetailService {
-
+  private readonly CONTEST_URL = `${environment.apiHost}/contest`;
   examples: Array<Post>;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private http:HttpClient) {
     this.examples = [
       {
         _id: 0,
@@ -38,6 +42,18 @@ export class ContestDetailService {
   getContests(): Array<Post> {
     return this.examples;
   }
+
+  postContest(contest:Contest):Observable<boolean> {
+    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}`,contest).pipe(map(res =>res.success))
+  }
+
+  /* 미구현 컨트롤러
+  getContest(id: number): Observable<Object>{
+    return this.http.get(`${this.CONTEST_URL}/${id}`);
+  }
+  getContests(): Observable<Object> {
+    return this.http.get(`${this.CONTEST_URL}/contest`);
+  }
   postContest(post:Post):Observable<boolean> {
     const simpleObservable = new Observable<boolean>(() => {
       post._id = +this.examples[this.examples.length-1]._id + 1
@@ -49,4 +65,11 @@ export class ContestDetailService {
       map(res => true)
     );
   }
+  postProblem(problem:Problem):Observable<boolean> {
+    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}`,problem).pipe(map(res =>res.success))
+  }
+  deleteProblem(id: number): Observable<Object> {
+    return this.http.delete(`${this.CONTEST_URL}/id`);
+  }
+  */
 }

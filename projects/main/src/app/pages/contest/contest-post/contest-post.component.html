@@ -2,9 +2,10 @@
   <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <mat-form-field appearance="fill">
       <mat-label>날짜를 선택하세요</mat-label>
-      <input matInput type="datetime-local" placeholder="start date">
+      <input matInput type="datetime-local" placeholder="">
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
   <mat-form-field appearance="outline">
     <mat-label>대회명</mat-label>
     <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
@@ -13,7 +14,7 @@
     <mat-label>추가 설명</mat-label>
     <textarea matInput [errorStateMatcher]="errorMatcher" formControlName="content"></textarea>
   </mat-form-field>
-  <div
+  <span
   class="file-input cursor"
   [class.pointer]="!disabled"
   appFileChooser
@@ -22,7 +23,18 @@
   [multiple]="true"
   [disabled]="disabled"
 >파일 제출
-</div>
+</span>
+<mat-list>
+  <div mat-subheader>PDFs</div>
+  <mat-list-item *ngFor="let image of this.images">
+
+    <div mat-line>{{image.filename}}</div>
+    <div mat-line> {{image.size/1024}}KB <mat-icon (click)='this.deleteImage(image)'>delete</mat-icon></div>
+
+  </mat-list-item>
+</mat-list>
+
+
 <div class="button-wrapper">
   <button mat-raised-button color="primary" type="submit">글쓰기</button>
 </div>
