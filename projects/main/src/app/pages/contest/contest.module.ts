@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule } from '@angular/router';
@@ -42,7 +41,6 @@ import {DialogContentExampleDialog} from './contest-apply/contest-apply.componen
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatFileUploadModule,
     MatButtonModule,
     MatSliderModule,
     RouterModule,
