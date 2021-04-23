@@ -18,15 +18,18 @@ import { ContestListComponent } from './contest-list/contest-list.component';
 import { ContestComponent } from './contest.component';
 import { ContestRoutingModule } from './contest-routing.module';
 import { FileModule } from '../../directives/file/file.module';
-
-
+import { ContestApplyComponent } from './contest-apply/contest-apply.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {DialogContentExampleDialog} from './contest-apply/contest-apply.component'
 
 @NgModule({
   declarations: [
     ContestDetailComponent,
     ContestPostComponent,
     ContestListComponent,
-    ContestComponent
+    ContestComponent,
+    ContestApplyComponent,
+    DialogContentExampleDialog,
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,10 @@ import { FileModule } from '../../directives/file/file.module';
     RouterModule,
     ContestRoutingModule,
     FileModule,
+    MatDialogModule,
   ],
-
+  entryComponents: [
+    MatDialogModule
+  ],
 })
 export class ContestModule { }
