@@ -13,6 +13,6 @@ export class UploadService {
     const formData = new FormData();
     formData.append('upload', file);
 
-    return this.http.post('http://localhost:5000/upload', formData);
+    return this.http.post('http://ridimotion.iptime.org:3502', formData);
   }
 }
