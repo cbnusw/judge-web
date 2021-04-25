@@ -1,19 +1,70 @@
 <mat-card class='post-container'>
   <form [formGroup]="formGroup" (ngSubmit)="submit()">
-    <mat-form-field appearance="fill">
-      <mat-label>날짜를 선택하세요</mat-label>
-      <input matInput type="datetime-local" placeholder="">
-      <mat-datepicker #picker></mat-datepicker>
+    <span [formGroup]="formGroup.get('registerPeriod')">
+      <mat-form-field class='period-picker' appearance="fill">
+        <mat-label>접수 기간</mat-label>
+        <mat-date-range-input style='font-size: small;' [rangePicker]="picker">
+          <input formControlName="from" [errorStateMatcher]="errorMatcher" matStartDate placeholder="시작 날짜">
+          <input formControlName="to" [errorStateMatcher]="errorMatcher"matEndDate placeholder="마감 날짜">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker>
+          <mat-date-range-picker-actions>
+            <button mat-button matDateRangePickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+      </mat-form-field>
+    </span>
+
+
+    <mat-form-field class='date-picker' appearance="fill">
+      <mat-label>진행 날짜</mat-label>
+      <input matInput formControlName="progressDay" [matDatepicker]="datepicker">
+      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>Cancel</button>
+          <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
     </mat-form-field>
+
+
+    <span [formGroup]="formGroup.get('progressPeriod')">
+
+      <mat-form-field class='date-picker' appearance="fill">
+        <mat-label>시작 시간</mat-label>
+        <input formControlName="from" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
+        <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field class='date-picker' appearance="fill" >
+          <mat-label>종료 시간</mat-label>
+          <input formControlName="to" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </span>
+
+
+
+
+
+
 
   <mat-form-field appearance="outline">
     <mat-label>대회명</mat-label>
     <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
   </mat-form-field>
+
+
   <mat-form-field appearance="fill">
     <mat-label>추가 설명</mat-label>
     <textarea matInput [errorStateMatcher]="errorMatcher" formControlName="content"></textarea>
   </mat-form-field>
+
+
   <span
   class="file-input cursor"
   [class.pointer]="!disabled"

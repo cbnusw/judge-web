@@ -6,7 +6,7 @@ import { Contest } from '../../models/contest';
 import { Problem } from '../../models/problem';
 import { environment } from '../../../environments/environment';
 import { Response } from '../../models/response';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 export interface Post {
   _id: any;
   title: string;
@@ -21,6 +21,7 @@ export interface Post {
 })
 export class ContestDetailService {
   private readonly CONTEST_URL = `${environment.apiHost}/contest`;
+  private readonly UPLOAD_URL = `${environment.uploadHost}`;
   examples: Array<Post>;
 
   constructor(private router: Router,
@@ -35,41 +36,23 @@ export class ContestDetailService {
         to: new Date(2021,1,3)
       }
     ];
+
   }
-  getContest(id: number): Post {
-    return this.examples[id];
-  }
-  getContests(): Array<Post> {
-    return this.examples;
+  getContest(id: string): Observable<Contest>{
+    return this.http.get<Response<Contest>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.data));
   }
 
   postContest(contest:Contest):Observable<boolean> {
     return this.http.post<Response<undefined>>(`${this.CONTEST_URL}`,contest).pipe(map(res =>res.success))
   }
 
-  /* 미구현 컨트롤러
-  getContest(id: number): Observable<Object>{
-    return this.http.get(`${this.CONTEST_URL}/${id}`);
+  getContests(): Observable<Response<Array<Contest>>> {
+    return this.http.get<Response<Array<Contest>>>(`${this.CONTEST_URL}`);
   }
-  getContests(): Observable<Object> {
-    return this.http.get(`${this.CONTEST_URL}/contest`);
+
+  getImageFromId(id:string): Observable<File>{
+    return this.http.get<Response<File>>(`${this.UPLOAD_URL}/${id}/download`).pipe(map(res=>res.data))
+
   }
-  postContest(post:Post):Observable<boolean> {
-    const simpleObservable = new Observable<boolean>(() => {
-      post._id = +this.examples[this.examples.length-1]._id + 1
-      post.file = ''
-      this.examples.push(post);
-      this.router.navigateByUrl('/contests');
-    })
-    return simpleObservable.pipe(
-      map(res => true)
-    );
-  }
-  postProblem(problem:Problem):Observable<boolean> {
-    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}`,problem).pipe(map(res =>res.success))
-  }
-  deleteProblem(id: number): Observable<Object> {
-    return this.http.delete(`${this.CONTEST_URL}/id`);
-  }
-  */
+
 }

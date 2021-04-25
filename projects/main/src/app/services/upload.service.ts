@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -19,6 +19,7 @@ export class UploadService {
     return this.http.delete(`${url}`);
   }
   deleteById(id: string): Observable<any> {
+    console.log(id);
     return this.http.delete(`${this.BASE_URL}/${id}`);
   }
 }

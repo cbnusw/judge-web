@@ -8,10 +8,6 @@ mat-form-field {
   margin-bottom: 1em;
 }
 
-.data-picker {
-  width: 250px;
-}
-
 textarea {
   height: 550px;
 }
@@ -43,4 +39,20 @@ button {
 
 .mat-list-item {
   display: inline-flex;
+}
+
+.period-picker {
+  width: 206px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.date-picker {
+  width: 140px;
+  display: inline-block;
+}
+
+.time-range-wrapper {
+  width: 206px;
+  display: inline-block;
 }

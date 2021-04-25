@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { ACCESS_TOKEN_KEY, StorageService } from '../../../services/storage.service';
+import { Contest } from '../../../models/contest';
 
 @Component({
   selector: 'sw-contest-list',
@@ -13,10 +14,9 @@ import { ACCESS_TOKEN_KEY, StorageService } from '../../../services/storage.serv
 export class ContestListComponent implements OnInit {
   private readonly BASE_URL = environment.authHost;
   subscription: Subscription;
-  contests: Array<Post>
+  contests: any;
   constructor(private http: HttpClient, detail: ContestDetailService) {
-    this.contests = detail.getContests();
-    this.http = http;
+    detail.getContests().subscribe(res => {this.contests = res.data;console.log(this.contests)});
   }
 
   //enrolling User

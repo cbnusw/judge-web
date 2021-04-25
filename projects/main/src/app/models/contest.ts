@@ -19,8 +19,8 @@ export interface Contest{
     to: Date
   },
   progressPeriod: {
-    from: Date, //시간
-    to: Date
+    from: any, //시간
+    to: any
   },
   attendedStudents?: Array<User>
 }

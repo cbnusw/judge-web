@@ -1,6 +1,8 @@
-<mat-card class='detail-container'><h2>{{post.title}}</h2>
-  <pdf-viewer *ngIf='this.pdfReg.test(post.file)'[src]="post.file" [autoresize]="true" [zoom]="0.8" [show-all]="true" [fit-to-page]="true">
-  </pdf-viewer>
-  <img *ngIf='this.pictureReg.test(post.file)' [src]="post.file">
-  {{post.content}}
+<mat-card class='detail-container'><div>{{post?.title}}</div><span>Created at {{post?.createdAt|date:'YYYY/MM/dd'}}</span>
+  <span *ngFor="let image of post?.pictures">
+    <pdf-viewer *ngIf='this.pdfReg.test(image.filename)' [src]="UPLOAD_URL+'/'+image._id+'/download'"  [autoresize]="true" [zoom]="0.8" [show-all]="true" [fit-to-page]="true">
+    </pdf-viewer>
+    <img *ngIf='this.pictureReg.test(image.filename)' [src]="UPLOAD_URL+'/'+image._id+'/download'">
+  </span>
+  {{post?.content}}
 </mat-card>

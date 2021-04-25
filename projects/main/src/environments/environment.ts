@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   authHost: 'http://ridimotion.iptime.org:3500',
-  apiHost: 'http://ridimotion.iptime.org:3501',
+  apiHost: 'http://ridimotion.iptime.org:3501/v1',
   uploadHost: 'http://ridimotion.iptime.org:3502'
 };
 

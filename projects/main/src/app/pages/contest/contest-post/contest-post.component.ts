@@ -1,5 +1,5 @@
 import { Component, OnInit , OnDestroy} from '@angular/core';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { SubmissionError } from '../../../classes/abstract-form.directive';
@@ -24,22 +24,22 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
   errorMatcher = new ErrorMatcher(this.submitted$, this.submissionError$);
   disabled = false;
   images: Array<any>;
-
   formGroup: FormGroup;
-
+  isSubmitted: boolean;
   constructor(
     private router: Router,
     formBuilder: FormBuilder,
     private detail: ContestDetailService,
     private uploadService: UploadService) {
-
       super(formBuilder)
       this.images = [];
-      console.log(this.formGroup)
+      console.log(this.formGroup);
+      this.isSubmitted = false
     }
 
 
   protected async processAfterSubmission(): Promise<void> {
+    this.isSubmitted = true;
     this.router.navigateByUrl('/contests');
   }
 
@@ -49,24 +49,34 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
 
   protected initFormGroup(formBuilder: FormBuilder): FormGroup {
     const formGroup = formBuilder.group({
-        _id: [],
         title: ['',Validators.required],
         content: ['',Validators.required],
-        registerPeriod:{
-          from: ['',Validators.required],
-          to: ['',Validators.required]
-        },
-        progressPeriod: {
-          from: ['',Validators.required],//시간
-          to: ['',Validators.required]
-        }
+        registerPeriod: formBuilder.group(
+          {
+            from: ['',Validators.required],
+            to: ['',Validators.required]
+          }
+        ),
+        progressPeriod: formBuilder.group(
+          {
+            from: ['',Validators.required],
+            to: ['',Validators.required]
+          }
+        ),
+        progressDay: ['', Validators.required]
       });
     return formGroup;
   }
 
   protected submitObservable(m: Contest): Observable<boolean> {
+    m.progressPeriod.from = new Date(new Date(this.formGroup.get('progressDay').value.setMinutes(m.progressPeriod.from.split(':')[1])).setHours(m.progressPeriod.from.split(':')[0]))
+    m.progressPeriod.to = new Date(new Date(this.formGroup.get('progressDay').value.setMinutes(m.progressPeriod.to.split(':')[1])).setHours(m.progressPeriod.to.split(':')[0]))
+    m.pictures = []
+    this.images.map(a=>m.pictures.push({url:a._id}))
+    console.log(m);
     return this.detail.postContest(m);
   }
+
 
   handleFiles(files: File[]): void {
     of(...files).pipe(
@@ -81,11 +91,17 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
     this.uploadService.deleteById(image._id).subscribe((res) => {console.log(res);alert(`${image.filename} 업로드를 취소하였습니다.`); this.images.splice(this.images.indexOf(image));});
   }
 
+
+  ngDoCheck(){
+
+  }
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    of(...this.images).pipe(
-      map(image => {this.uploadService.deleteByUrl(image.url); })
-    ).subscribe(()=> this.images.shift())
+    console.log(this.images);
+    if (!this.isSubmitted)
+      of(...this.images).pipe(
+        map(image => {this.uploadService.deleteById(image._id);})
+      ).subscribe(console.log)
     this.errorMatcher.clear();
   }
 
