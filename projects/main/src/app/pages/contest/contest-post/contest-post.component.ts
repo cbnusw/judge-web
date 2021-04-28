@@ -1,4 +1,4 @@
-import { Component, OnInit , OnDestroy} from '@angular/core';
+import { Component, OnInit , OnDestroy, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
@@ -15,17 +15,47 @@ import { UploadService } from '../../../services/upload.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { Contest} from '../../../models/contest';
 import { Problem} from '../../../models/problem';
+import { MatAccordion } from '@angular/material/expansion';
 @Component({
   selector: 'sw-contest-post',
   templateUrl: './contest-post.component.html',
   styleUrls: ['./contest-post.component.scss']
 })
-export class ContestPostComponent extends AbstractFormDirective<Contest, boolean> implements OnDestroy {
+export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean> implements OnDestroy {
+  subjectStep = 0;
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  setSubjectStep(index: number) {
+    this.subjectStep = index;
+  }
+
+  nextSubjectStep() {
+    this.subjectStep++;
+  }
+
+  prevSubjectStep() {
+    this.subjectStep--;
+  }
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   errorMatcher = new ErrorMatcher(this.submitted$, this.submissionError$);
   disabled = false;
   images: Array<any>;
+  problems: Array<any>;
   formGroup: FormGroup;
   isSubmitted: boolean;
+  post: Contest;
   constructor(
     private router: Router,
     formBuilder: FormBuilder,
@@ -33,6 +63,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
     private uploadService: UploadService) {
       super(formBuilder)
       this.images = [];
+      this.problems = [];
       console.log(this.formGroup);
       this.isSubmitted = false
     }
@@ -40,11 +71,12 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
 
   protected async processAfterSubmission(): Promise<void> {
     this.isSubmitted = true;
-    this.router.navigateByUrl('/contests');
   }
 
   protected processSubmissionError(err: HttpErrorResponse): void {
     console.error(err);
+    if(this.formGroup.get('content').invalid || this.formGroup.get('title').invalid)this.step==0;
+    else if(this.formGroup.get('registerPeriod').invalid || this.formGroup.get('progressPeriod').invalid)this.step==1;
   }
 
   protected initFormGroup(formBuilder: FormBuilder): FormGroup {
@@ -63,7 +95,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
             to: ['',Validators.required]
           }
         ),
-        progressDay: ['', Validators.required]
+        progressDay: ['', Validators.required],
       });
     return formGroup;
   }
@@ -74,7 +106,8 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
     m.pictures = []
     this.images.map(a=>m.pictures.push({url:a._id}))
     console.log(m);
-    return this.detail.postContest(m);
+    this.subjectStep = 1;
+    return this.detail.postContest(m).pipe(map(res=>{this.post = res.data;return res.success;}))
   }
 
 
@@ -100,9 +133,17 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, boolean
     console.log(this.images);
     if (!this.isSubmitted)
       of(...this.images).pipe(
-        map(image => {this.uploadService.deleteById(image._id);})
-      ).subscribe(console.log)
+        map(image => image._id)
+      ).subscribe(this.uploadService.deleteById)
     this.errorMatcher.clear();
   }
-
+  finalApply(){
+    this.detail.updateContest(this.post);
+    this.router.navigateByUrl('/contests');
+  }
+  addProblem(id:string):void {
+    if(id in this.post.problems)return
+    this.post.problems.push(id);
+    this.detail.updateContest(this.post);
+  }
 }

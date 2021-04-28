@@ -1,0 +1,112 @@
+<mat-accordion class="post-container">
+  <form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <mat-expansion-panel  [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        본문
+      </mat-panel-title>
+      <mat-panel-description>
+        문제명 및 문제 설명
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field appearance="outline">
+      <mat-label>문제명</mat-label>
+      <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
+    </mat-form-field>
+    <div [formGroup]="formGroup.get('content')">
+      <mat-form-field appearance="fill">
+        <mat-label>문제 설명</mat-label>
+        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainProblem"></textarea>
+      </mat-form-field>
+    </div>
+    <mat-action-row>
+      <button mat-button color="primary" type="button" (click)="formGroup.get('title').valid && formGroup.get('content').get('explainProblem').valid ? nextStep() : 1">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        입출력
+      </mat-panel-title>
+      <mat-panel-description>
+        입출력 형태 설명 및 예제
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div [formGroup]="formGroup.get('content')">
+      <mat-form-field appearance="fill">
+        <mat-label>입력 형태 설명</mat-label>
+        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainInput"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>출력 형태설명</mat-label>
+        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainOutput"></textarea>
+      </mat-form-field>
+    </div>
+      <mat-card >
+        <mat-card-header>
+          <mat-card-title>
+            예제 파일
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let io of this.previewExampleIos">
+            <mat-form-field  *ngIf="io?.in != undefined" appearance="fill">
+              <mat-label>입력</mat-label>
+            <textarea matTextareaAutosize readonly class='example-io' matInput  [value]='io.in'></textarea>
+            </mat-form-field>
+            <mat-form-field  *ngIf="io?.out != undefined" appearance="fill">
+              <mat-label>출력</mat-label>
+            <textarea matTextareaAutosize readonly class='example-io' matInput [value]='io.out'></textarea>
+            </mat-form-field>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+        <mat-card-actions>
+      <div class="button-wrapper">
+        <button type="button"
+        class="file-input cursor"
+        [class.pointer]="!disabled"
+        appFileChooser
+        (filesChange)="handleExampleIo($event)"
+        accept="*"
+        [multiple]="true"
+        [disabled]="disabled"
+        >파일 제출
+        </button>
+      </div>
+        </mat-card-actions>
+      </mat-card>
+      <mat-action-row>
+        <button mat-button color="primary" type="button" (click)="formGroup.get('content').get('explainInput').valid && formGroup.get('content').get('explainOutput').valid ? nextStep() : 1">Next</button>
+      </mat-action-row>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        채점용 파일
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <span *ngIf="this.Ios.length">{{this.Ios.length}}개의 입출력쌍이 입력되었습니다.</span>
+    <mat-action-row>
+    <div class="button-wrapper">
+    <button type="button"
+    class="file-input cursor"
+    [class.pointer]="!disabled"
+    appFileChooser
+    (filesChange)="handleIo($event)"
+    accept="*"
+    [multiple]="true"
+    [disabled]="disabled"
+    >파일 제출
+    </button>
+  </div>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <div class="button-wrapper">
+    <button mat-raised-button color="primary" type="submit">문제 등록</button>
+  </div>
+</form>
+</mat-accordion>
+
+

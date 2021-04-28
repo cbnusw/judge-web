@@ -14,6 +14,6 @@ export interface Problem{
     explainOutput: string
     ioSample: Array<Io>
   },
-  contest: Contest,
+  contest: string,
   io: Array<Io>
 }

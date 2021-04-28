@@ -21,6 +21,7 @@ export interface Post {
 })
 export class ContestDetailService {
   private readonly CONTEST_URL = `${environment.apiHost}/contest`;
+  private readonly PROBLEM_URL = `${environment.apiHost}/problem`;
   private readonly UPLOAD_URL = `${environment.uploadHost}`;
   examples: Array<Post>;
 
@@ -42,17 +43,25 @@ export class ContestDetailService {
     return this.http.get<Response<Contest>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.data));
   }
 
-  postContest(contest:Contest):Observable<boolean> {
-    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}`,contest).pipe(map(res =>res.success))
+  postContest(contest:Contest):Observable<Response<Contest>> {
+    return this.http.post<Response<Contest>>(`${this.CONTEST_URL}`,contest)
   }
-
+  postProblem(problem:Problem):Observable<Response<Problem>> {
+    return this.http.post<Response<Problem>>(`${this.PROBLEM_URL}`,problem)
+  }
   getContests(): Observable<Response<Array<Contest>>> {
     return this.http.get<Response<Array<Contest>>>(`${this.CONTEST_URL}`);
   }
 
-  getImageFromId(id:string): Observable<File>{
-    return this.http.get<Response<File>>(`${this.UPLOAD_URL}/${id}/download`).pipe(map(res=>res.data))
+  deleteContest(id:string):Observable<boolean>{
+    return this.http.delete<Response<undefined>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.success))
+  }
+  updateContest(m:Contest): Observable<Response<undefined>>{
+    return this.http.put<Response<undefined>>(`${this.CONTEST_URL}/${m._id}`,m)
+  }
 
+  getImageFromId(id:string): Promise<string>{
+    return fetch(`${this.UPLOAD_URL}/${id}/download`).then(res=>res.text())
   }
 
 }

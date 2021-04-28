@@ -13,7 +13,7 @@ export interface Contest{
   pictures?: Array<Picture>,
   writer: User,
   content: string,
-  problems?: Array<Problem>,
+  problems?: Array<string>,
   registerPeriod: {
     from: Date, //등록 기간
     to: Date

@@ -21,7 +21,9 @@ import { ContestApplyComponent } from './contest-apply/contest-apply.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {DialogContentExampleDialog} from './contest-apply/contest-apply.component'
 import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { ProblemPostComponent } from './problem-post/problem-post.component';
 @NgModule({
   declarations: [
     ContestDetailComponent,
@@ -30,8 +32,10 @@ import {MatIconModule} from '@angular/material/icon'
     ContestComponent,
     ContestApplyComponent,
     DialogContentExampleDialog,
+    ProblemPostComponent,
   ],
   imports: [
+    MatExpansionModule,
     MatIconModule,
     MatListModule,
     CommonModule,

@@ -1,93 +1,151 @@
-<mat-card class='post-container'>
-  <form [formGroup]="formGroup" (ngSubmit)="submit()">
-    <span [formGroup]="formGroup.get('registerPeriod')">
-      <mat-form-field class='period-picker' appearance="fill">
-        <mat-label>접수 기간</mat-label>
-        <mat-date-range-input style='font-size: small;' [rangePicker]="picker">
-          <input formControlName="from" [errorStateMatcher]="errorMatcher" matStartDate placeholder="시작 날짜">
-          <input formControlName="to" [errorStateMatcher]="errorMatcher"matEndDate placeholder="마감 날짜">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker>
-          <mat-date-range-picker-actions>
-            <button mat-button matDateRangePickerCancel>Cancel</button>
-            <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
-          </mat-date-range-picker-actions>
-        </mat-date-range-picker>
-      </mat-form-field>
-    </span>
+<mat-accordion class="post-container">
+  <mat-expansion-panel  [expanded]="subjectStep === 0" (opened)="setSubjectStep(0)" displayMode='flat' hideToggle #contestForm>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h3>콘테스트 작성</h3>
+      </mat-panel-title>
+      <mat-panel-description>
+        전달사항 및 콘테스트 정보 작성
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-accordion class="post-container">
+      <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <mat-expansion-panel  [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              본문
+            </mat-panel-title>
+            <mat-panel-description>
+              대회명 및 추가 설명
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field appearance="outline">
+            <mat-label>대회명</mat-label>
+            <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
+          </mat-form-field>
 
 
-    <mat-form-field class='date-picker' appearance="fill">
-      <mat-label>진행 날짜</mat-label>
-      <input matInput formControlName="progressDay" [matDatepicker]="datepicker">
-      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-      <mat-datepicker #datepicker>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>추가 설명</mat-label>
+            <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="content"></textarea>
+          </mat-form-field>
+          <mat-action-row>
+          <button mat-button color="primary" type="button" (click)="formGroup.get('title').valid && formGroup.get('content').valid ? nextStep() : 1">Next</button>
+        </mat-action-row>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel  [expanded]="step === 1" (opened)="setStep(1); period.disabled=false" #period hideToggle disabled>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              기간
+            </mat-panel-title>
+            <mat-panel-description>
+              접수 및 진행 기간
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <span [formGroup]="formGroup.get('registerPeriod')">
+            <mat-form-field class='period-picker' appearance="legacy">
+              <mat-label>접수 기간</mat-label>
+              <mat-date-range-input style='font-size: small;' [rangePicker]="picker">
+                <input formControlName="from" [errorStateMatcher]="errorMatcher" matStartDate placeholder="시작 날짜">
+                <input formControlName="to" [errorStateMatcher]="errorMatcher"matEndDate placeholder="마감 날짜">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker>
+                <mat-date-range-picker-actions>
+                  <button mat-button matDateRangePickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                </mat-date-range-picker-actions>
+              </mat-date-range-picker>
+            </mat-form-field>
+          </span>
 
 
-    <span [formGroup]="formGroup.get('progressPeriod')">
-
-      <mat-form-field class='date-picker' appearance="fill">
-        <mat-label>시작 시간</mat-label>
-        <input formControlName="from" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
-        <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-
-        <mat-form-field class='date-picker' appearance="fill" >
-          <mat-label>종료 시간</mat-label>
-          <input formControlName="to" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </span>
+          <mat-form-field class='date-picker' appearance="legacy">
+            <mat-label>진행 날짜</mat-label>
+            <input matInput formControlName="progressDay" [matDatepicker]="datepicker">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
 
 
+          <span [formGroup]="formGroup.get('progressPeriod')">
+
+            <mat-form-field class='date-picker' appearance="legacy">
+              <mat-label>시작 시간</mat-label>
+              <input formControlName="from" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
+              <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
 
 
+              <mat-form-field class='date-picker' appearance="legacy" >
+                <mat-label>종료 시간</mat-label>
+                <input formControlName="to" [errorStateMatcher]="errorMatcher" matInput type="time"  placeholder="시작">
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+          </span>
+            <button mat-button color="primary" type="button" (click)="formGroup.get('progressPeriod').valid && formGroup.get('registerPeriod').valid ? nextStep() : 1">Next</button>
+          </mat-expansion-panel>
+
+        <mat-expansion-panel  [expanded]="step === 2" (opened)="setStep(2); file.disabled=false" #file hideToggle disabled>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              첨부파일
+            </mat-panel-title>
+            <mat-panel-description>
+              본문 표시될 PDF 혹은 사진파일 첨부
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
 
+          <mat-list>
+            <mat-list-item *ngFor="let image of this.images">
 
-  <mat-form-field appearance="outline">
-    <mat-label>대회명</mat-label>
-    <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
-  </mat-form-field>
+              <div mat-line>{{image.filename}}</div>
+              <div mat-line> {{image.size/1024}}KB <mat-icon (click)='this.deleteImage(image)'>delete</mat-icon></div>
 
+            </mat-list-item>
+          </mat-list>
+          <span
+          class="file-input cursor"
+          [class.pointer]="!disabled"
+          appFileChooser
+          (filesChange)="handleFiles($event)"
+          accept="*"
+          [multiple]="true"
+          [disabled]="disabled"
+          >파일 제출
+          </span>
 
-  <mat-form-field appearance="fill">
-    <mat-label>추가 설명</mat-label>
-    <textarea matInput [errorStateMatcher]="errorMatcher" formControlName="content"></textarea>
-  </mat-form-field>
+        <div class="button-wrapper">
+          <button mat-raised-button color="primary" type="submit" (click)='nextSubjectStep()'>콘테스트 등록</button>
+        </div>
 
-
-  <span
-  class="file-input cursor"
-  [class.pointer]="!disabled"
-  appFileChooser
-  (filesChange)="handleFiles($event)"
-  accept="*"
-  [multiple]="true"
-  [disabled]="disabled"
->파일 제출
-</span>
-<mat-list>
-  <div mat-subheader>PDFs</div>
-  <mat-list-item *ngFor="let image of this.images">
-
-    <div mat-line>{{image.filename}}</div>
-    <div mat-line> {{image.size/1024}}KB <mat-icon (click)='this.deleteImage(image)'>delete</mat-icon></div>
-
-  </mat-list-item>
-</mat-list>
+        </mat-expansion-panel>
 
 
-<div class="button-wrapper">
-  <button mat-raised-button color="primary" type="submit">글쓰기</button>
-</div>
-</form>
-</mat-card>
+      </form>
+    </mat-accordion>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel  [expanded]="subjectStep === 1" (opened)="setSubjectStep(1); contestForm.disabled=true" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h3>문제 추가</h3>
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+      <sw-problem-post [contest]='post' (posted)='addProblem($event)'>  </sw-problem-post>
+  </mat-expansion-panel>
+  <div class="button-wrapper">
+    <button mat-raised-button color="primary" type="button" (click)='finalApply()'>최종 제출</button>
+  </div>
+
+</mat-accordion>
