@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  authHost: 'http://ridimotion.iptime.org:3500',
-  apiHost: 'http://ridimotion.iptime.org:3501/v1',
-  uploadHost: 'http://ridimotion.iptime.org:3502'
+  authHost: 'http://cbnuoss.iptime.org:3500',
+  apiHost: 'http://cbnuoss.iptime.org:3501/v1',
+  uploadHost: 'http://cbnuoss.iptime.org:3502'
 };
 
 /*
