@@ -16,8 +16,8 @@ export interface Post {
 }
 
 export interface PostEnrollData {
-  userId: User,
-  contestId: string
+  userId: User;
+  contestId: string;
 }
 
 @Injectable({
@@ -57,8 +57,8 @@ export class ContestDetailService {
       map(res => true)
     );
   }
-  postEnrollData(post: PostEnrollData): Observable<boolean> {
-    return this.http.post<Response<undefined>>(`${this.BASE_URL}/contest/contest-enroll`, post).pipe(
+  postEnrollments(userId: string, contestId: string): Observable<boolean> {
+    return this.http.post<Response<undefined>>(`${this.BASE_URL}/contests/enroll`, { userId, contestId }).pipe(
       map(res => res.success)
     );
   }

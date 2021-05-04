@@ -13,15 +13,15 @@ import { AuthService } from '../../../services/auth.service';
 export class ContestListComponent implements OnInit {
   subscription: Subscription;
   contests: Array<Post>
-  constructor(private http: HttpClient, detail: ContestDetailService, private authService: AuthService) {
+  constructor(private http: HttpClient, private detail: ContestDetailService, private authService: AuthService) {
     this.contests = detail.getContests();
   }
 
   //enrolling User
   protected enrollUser = function (_id: any) {
-    const userId = this.authService.me;
+    const userId = this.authService.me._id;
     const contestId = _id;
-
+    console.log(` usertId :: ${userId} contestId :: ${contestId}`);
     return this.detail.postEnrollments(userId, contestId);
   }
   ngOnInit(): void {
