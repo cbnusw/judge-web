@@ -3,17 +3,11 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../../app/models/user'
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'projects/main/src/environments/environment';
+import { Contest } from '../../models/contest';
+import { Problem } from '../../models/problem';
+import { environment } from '../../../environments/environment';
 import { Response } from '../../models/response';
-export interface Post {
-  _id: any;
-  title: string;
-  content: string;
-  file?: string;
-  from: Date;
-  to: Date;
-}
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 export interface PostEnrollData {
   userId: User;
@@ -24,42 +18,43 @@ export interface PostEnrollData {
   providedIn: 'root'
 })
 export class ContestDetailService {
+  private readonly CONTEST_URL = `${environment.apiHost}/contest`;
+  private readonly PROBLEM_URL = `${environment.apiHost}/problem`;
+  private readonly UPLOAD_URL = `${environment.uploadHost}`;
+  private readonly BASE_URL = environment.apiHost;
 
-  examples: Array<Post>;
-  private readonly BASE_URL = environment.apiHosts;
+  constructor(private router: Router,
+    private http: HttpClient) {
+  }
+  getContest(id: string): Observable<Contest> {
+    return this.http.get<Response<Contest>>(`${this.CONTEST_URL}/${id}`).pipe(map(res => res.data));
+  }
 
-  constructor(private router: Router, private http: HttpClient) {
-    this.examples = [
-      {
-        _id: 0,
-        title: 'SW중심대학사업단 주최 알고리즘 대회',
-        content: '사업단 연락처 043-xxx-xxxx',
-        file: 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf',
-        from: new Date(2021, 1, 1),
-        to: new Date(2021, 1, 3)
-      }
-    ];
+  postContest(contest: Contest): Observable<Response<Contest>> {
+    return this.http.post<Response<Contest>>(`${this.CONTEST_URL}`, contest)
   }
-  getContest(id: number): Post {
-    return this.examples[id];
+  postProblem(problem: Problem): Observable<Response<Problem>> {
+    return this.http.post<Response<Problem>>(`${this.PROBLEM_URL}`, problem)
   }
-  getContests(): Array<Post> {
-    return this.examples;
+  getContests(): Observable<Response<Array<Contest>>> {
+    return this.http.get<Response<Array<Contest>>>(`${this.CONTEST_URL}`);
   }
-  postContest(post: Post): Observable<boolean> {
-    const simpleObservable = new Observable<boolean>(() => {
-      post._id = +this.examples[this.examples.length - 1]._id + 1
-      post.file = ''
-      this.examples.push(post);
-      this.router.navigateByUrl('/contests');
-    })
-    return simpleObservable.pipe(
-      map(res => true)
-    );
+
+  deleteContest(id: string): Observable<boolean> {
+    return this.http.delete<Response<undefined>>(`${this.CONTEST_URL}/${id}`).pipe(map(res => res.success))
   }
+  updateContest(m: Contest): Observable<Response<undefined>> {
+    return this.http.put<Response<undefined>>(`${this.CONTEST_URL}/${m._id}`, m)
+  }
+
   postEnrollments(userId: string, contestId: string): Observable<boolean> {
     return this.http.post<Response<undefined>>(`${this.BASE_URL}/contests/enroll`, { userId, contestId }).pipe(
       map(res => res.success)
     );
   }
+
+  getImageFromId(id: string): Promise<string> {
+    return fetch(`${this.UPLOAD_URL}/${id}/download`).then(res => res.text())
+  }
+
 }

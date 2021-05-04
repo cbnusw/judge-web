@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ContestDetailService, Post, PostEnrollData } from '../contest-detail.service'
+import { ContestDetailService, PostEnrollData } from '../contest-detail.service'
 import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { ACCESS_TOKEN_KEY, StorageService } from '../../../services/storage.service';
 import { AuthService } from '../../../services/auth.service';
+import { Contest } from '../../../models/contest';
+
 @Component({
   selector: 'sw-contest-list',
   templateUrl: './contest-list.component.html',
@@ -12,9 +14,9 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ContestListComponent implements OnInit {
   subscription: Subscription;
-  contests: Array<Post>
-  constructor(private http: HttpClient, private detail: ContestDetailService, private authService: AuthService) {
-    this.contests = detail.getContests();
+  contests: any;
+  constructor(private http: HttpClient, detail: ContestDetailService) {
+    detail.getContests().subscribe(res => { this.contests = res.data; console.log(this.contests) });
   }
 
   //enrolling User

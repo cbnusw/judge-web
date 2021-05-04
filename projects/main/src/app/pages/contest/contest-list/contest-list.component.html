@@ -1,8 +1,16 @@
-<mat-card class="example-card" *ngFor="let contest of contests">
+<mat-card class="example-card" *ngFor="let contest of contests?.documents">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{contest.title}}</mat-card-title>
-    <mat-card-subtitle>{{contest.from|date:'YYYY년 MM월 dd일'}}부터 {{contest.to|date:'YYYY년 MM월 dd일'}}까지</mat-card-subtitle>
+    <mat-card-subtitle>
+      <div>
+        등록기간: {{contest.registerPeriod.from|date:'YYYY/MM/dd'}}~{{contest.registerPeriod.to|date:'YYYY/MM/dd'}}
+      </div>
+      <div>
+        진행기간: {{contest.progressPeriod.from|date:'YYYY/MM/dd HH:mm'}}~{{contest.progressPeriod.to|date:'HH:mm'}}
+      </div>
+    </mat-card-subtitle>
+
   </mat-card-header>
   <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
   <img mat-card-image src="../../../../assets/images/1.jpg" alt="Photo">
