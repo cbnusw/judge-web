@@ -48,9 +48,7 @@ export class ContestDetailService {
   }
 
   postEnrollments(userId: string, contestId: string): Observable<boolean> {
-    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}/enroll`, { userId, contestId }).pipe(
-      map(res => res.success)
-    );
+    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}/enroll`, { userId, contestId }).pipe(map(res => res.success));
   }
 
   getImageFromId(id: string): Promise<string> {

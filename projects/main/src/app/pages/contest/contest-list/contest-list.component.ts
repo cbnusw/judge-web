@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContestDetailService, PostEnrollData } from '../contest-detail.service'
 import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
-import { ACCESS_TOKEN_KEY, StorageService } from '../../../services/storage.service';
 import { AuthService } from '../../../services/auth.service';
-import { Contest } from '../../../models/contest';
-
+import { ERROR_CODES } from '../../../constants/error-codes';
 @Component({
   selector: 'sw-contest-list',
   templateUrl: './contest-list.component.html',
@@ -23,8 +20,12 @@ export class ContestListComponent implements OnInit {
   protected enrollUser = function (_id: any) {
     const userId = this.authService.me._id;
     const contestId = _id;
-    console.log(` usertId :: ${userId} contestId :: ${contestId}`);
-    return this.detail.postEnrollments(userId, contestId).subscribe(res => { console.log(res) });
+    return this.detail.postEnrollments(userId, contestId).subscribe(res => {
+      alert("참가되었습니다.");
+    }, err => {
+      if (err.error.code == ERROR_CODES.CONTEST_USER_DUPLICATED) alert(err.error.message);
+      else alert(err.error.message);
+    })
   }
   ngOnInit(): void {
   }
