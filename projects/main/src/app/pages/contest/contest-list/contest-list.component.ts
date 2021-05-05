@@ -15,7 +15,7 @@ import { Contest } from '../../../models/contest';
 export class ContestListComponent implements OnInit {
   subscription: Subscription;
   contests: any;
-  constructor(private http: HttpClient, detail: ContestDetailService) {
+  constructor(private http: HttpClient, private detail: ContestDetailService, private authService: AuthService) {
     detail.getContests().subscribe(res => { this.contests = res.data; console.log(this.contests) });
   }
 
@@ -24,7 +24,7 @@ export class ContestListComponent implements OnInit {
     const userId = this.authService.me._id;
     const contestId = _id;
     console.log(` usertId :: ${userId} contestId :: ${contestId}`);
-    return this.detail.postEnrollments(userId, contestId);
+    return this.detail.postEnrollments(userId, contestId).subscribe(res => { console.log(res) });
   }
   ngOnInit(): void {
   }

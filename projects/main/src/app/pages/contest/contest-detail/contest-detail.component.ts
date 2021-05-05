@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Contest } from '../../../models/contest';
-import { ContestDetailService, Post } from '../contest-detail.service';
+import { ContestDetailService } from '../contest-detail.service';
 import { environment } from '../../../../environments/environment';
 import {AuthService} from '../../../services/auth.service';
 @Component({
