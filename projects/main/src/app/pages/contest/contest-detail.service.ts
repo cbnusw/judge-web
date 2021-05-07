@@ -39,8 +39,8 @@ export class ContestDetailService {
     ];
 
   }
-  getContest(id: string): Observable<Contest>{
-    return this.http.get<Response<Contest>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.data));
+  getContest(id: string): Observable<any>{
+    return this.http.get<Response<any>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.data));
   }
 
   postContest(contest:Contest):Observable<Response<Contest>> {
@@ -56,10 +56,17 @@ export class ContestDetailService {
   deleteContest(id:string):Observable<boolean>{
     return this.http.delete<Response<undefined>>(`${this.CONTEST_URL}/${id}`).pipe(map(res=>res.success))
   }
+
+  deleteProblem(id:string):Observable<boolean>{
+    return this.http.delete<Response<undefined>>(`${this.PROBLEM_URL}/${id}`).pipe(map(res=>res.success))
+  }
   updateContest(m:Contest): Observable<Response<undefined>>{
     return this.http.put<Response<undefined>>(`${this.CONTEST_URL}/${m._id}`,m)
   }
 
+  getProblem(id: string): Observable<Problem>{
+    return this.http.get<Response<Problem>>(`${this.PROBLEM_URL}/${id}`).pipe(map(res=>res.data));
+  }
   getImageFromId(id:string): Promise<string>{
     return fetch(`${this.UPLOAD_URL}/${id}/download`).then(res=>res.text())
   }

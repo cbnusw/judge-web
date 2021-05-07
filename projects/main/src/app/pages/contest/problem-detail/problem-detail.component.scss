@@ -2,9 +2,7 @@ pdf-viewer {
   display: inline;
   width: 900px;
 }
-.title-line {
-  border-bottom: 2px, solid, rgb(58, 58, 58);
-}
+
 img {
   width: auto;
 }
@@ -15,9 +13,8 @@ img {
   text-align: left;
 }
 
-mat-card-title {
+.title {
   font-size: 5em;
-  font-weight: 700;
 }
 
 h2 {

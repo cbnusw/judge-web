@@ -16,6 +16,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { Contest} from '../../../models/contest';
 import { Problem} from '../../../models/problem';
 import { MatAccordion } from '@angular/material/expansion';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'sw-contest-post',
   templateUrl: './contest-post.component.html',
@@ -107,7 +108,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
     this.images.map(a=>m.pictures.push({url:a._id}))
     console.log(m);
     this.subjectStep = 1;
-    return this.detail.postContest(m).pipe(map(res=>{this.post = res.data;return res.success;}))
+    return this.detail.postContest(m).pipe(map(res => { console.log(res);this.post = res.data;return res.success;}))
   }
 
 
@@ -138,12 +139,12 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
     this.errorMatcher.clear();
   }
   finalApply(){
-    this.detail.updateContest(this.post);
-    this.router.navigateByUrl('/contests');
+    this.detail.updateContest(this.post).subscribe(res=>this.router.navigateByUrl('/contests'));
+
   }
   addProblem(id:string):void {
-    if(id in this.post.problems)return
     this.post.problems.push(id);
-    this.detail.updateContest(this.post);
+    console.log(this.post);
+    this.nextSubjectStep();
   }
 }

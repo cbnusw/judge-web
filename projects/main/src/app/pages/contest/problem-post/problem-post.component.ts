@@ -27,6 +27,7 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
   exampleIos: Array<Io> = []
   previewExampleIos: Array<Io> = []
   Ios: Array<Io> = []
+  contentPDF: Array<string> = [];
   @Input() contest:Contest;
   @Output() posted: EventEmitter<string> = new EventEmitter<string>();
   updateProblem(id:string){
@@ -39,6 +40,7 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
 
   nextStep() {
     this.step++;
+    console.log(this.contest)
   }
 
   prevStep() {
@@ -49,29 +51,37 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
     formBuilder:FormBuilder,
     private upload:UploadService,
     private detail:ContestDetailService,
-    private http:HttpClient) {
+    ) {
       super(formBuilder);
       this.exampleIos = [];
-      this.Ios = []
+    this.Ios = [];
+
     }
 
-
+  protected async processAfterSubmission(): Promise<void> {
+    this.exampleIos = [];
+    this.Ios = [];
+        this.contentPDF = [];
+    this.previewExampleIos = [];
+  }
     protected initFormGroup(formBuilder: FormBuilder): FormGroup {
       const formGroup = formBuilder.group({
-        title: ['',Validators.required],
+        title: ['', Validators.required],
         content: formBuilder.group({
-          explainProblem: ['',Validators.required],
-          explainInput: ['', Validators.required],
-          explainOutput: ['',Validators.required]
-        })
+          contentPDF: [''],
+          ioSample: ['']
+        }),
+        io: ['']
       })
       return formGroup;
     }
 
-    protected submitObservable(m: Problem): Observable<boolean> {
-      m.content.ioSample = this.exampleIos;
-      m.io = this.Ios
-      m.contest = this.contest._id;
+  protected submitObservable(m: Problem): Observable<boolean> {
+      let data:Problem = m;
+      data.content.ioSample = this.exampleIos;
+      data.io = this.Ios;
+      data.contest = this.contest._id;
+      data.content.contentPDF = this.contentPDF;
       return this.detail.postProblem(m).pipe(map(res=>{this.updateProblem(res.data._id); return res.success}));
     }
 
@@ -79,6 +89,7 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
       of(...files).pipe(
         mergeMap(file => this.upload.upload(file))
       ).subscribe(res => {
+
         const index = +res.filename.split('.')[0]-1;
         if(this.exampleIos[index] == undefined){
           this.exampleIos[index] = {in: undefined, out: undefined}}
@@ -89,9 +100,24 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
         if(this.exampleIos[index].in != undefined && this.exampleIos[index].out != undefined)
         {this.previewExampleIos[index] = {in: undefined, out: undefined}
           this.detail.getImageFromId(this.exampleIos[index].in).then(res=>{this.previewExampleIos[index]['in'] = res})
-        this.detail.getImageFromId(this.exampleIos[index].out).then(res=>{this.previewExampleIos[index]['out'] = res})}
+          this.detail.getImageFromId(this.exampleIos[index].out).then(res => { this.previewExampleIos[index]['out'] = res })
+
+        }
+        console.log(this.exampleIos, this.previewExampleIos)
       })
     }
+
+    deleteImage(image:any): void{
+    this.upload.deleteById(image._id).subscribe((res) => {console.log(res);alert(`${image.filename} 업로드를 취소하였습니다.`); this.contentPDF.splice(this.contentPDF.indexOf(image));});
+  }
+    handleFiles(files: File[]): void {
+    of(...files).pipe(
+      mergeMap(file => this.upload.upload(file))
+    ).subscribe(res => {
+      this.contentPDF.push(res);
+      console.log(this.contentPDF);
+    })
+  }
     handleIo(files: File[], ): void {
       of(...files).pipe(
         mergeMap(file => this.upload.upload(file))
