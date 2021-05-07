@@ -13,6 +13,7 @@ const errors = {
   USER_INFO_REQUIRED: '',
   USER_NAME_REQUIRED: '',
   USER_PHONE_REQUIRED: '',
+  CONTEST_USER_DUPLICATED: '',
 
   // 401 Errors
   ACCESS_TOKEN_EXPIRED: '',
