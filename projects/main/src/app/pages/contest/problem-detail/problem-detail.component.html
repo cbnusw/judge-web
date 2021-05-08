@@ -1,0 +1,23 @@
+<mat-card class='detail-container'>
+  <h2>{{post?.title}}</h2>
+  <div>Created at {{post?.createdAt|date:'YYYY/MM/dd'}}</div><span><button mat-raised-button color="primary"
+      *ngIf='checkWriter()' (click)='deleteProblem()'>삭제</button></span>
+  <div *ngFor="let image of post?.content.contentPDF">
+    <pdf-viewer *ngIf='this.pdfReg.test(image.filename)' [src]="UPLOAD_URL+'/'+image._id+'/download'"
+      [autoresize]="true" [zoom]="0.8" [show-all]="true" [fit-to-page]="true">
+    </pdf-viewer>
+    <img *ngIf='this.pictureReg.test(image.filename)' [src]="UPLOAD_URL+'/'+image+'/download'">
+  </div>
+    <mat-list>
+      <mat-list-item *ngFor="let io of this.post?.content.ioSample">
+        <mat-form-field *ngIf="io?.in != undefined" appearance="fill">
+          <mat-label>입력</mat-label>
+          <textarea matTextareaAutosize readonly class='example-io' matInput [value]=""></textarea>
+        </mat-form-field>
+        <mat-form-field *ngIf="io?.out != undefined" appearance="fill">
+          <mat-label>출력</mat-label>
+          <textarea matTextareaAutosize readonly class='example-io' matInput [value]=""></textarea>
+        </mat-form-field>
+      </mat-list-item>
+    </mat-list>
+</mat-card>

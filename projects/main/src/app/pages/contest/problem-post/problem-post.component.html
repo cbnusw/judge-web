@@ -6,42 +6,51 @@
         본문
       </mat-panel-title>
       <mat-panel-description>
-        문제명 및 문제 설명
+        제목 및 본문 PDF첨부
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-form-field appearance="outline">
       <mat-label>문제명</mat-label>
       <input matInput [errorStateMatcher]="errorMatcher" formControlName="title">
     </mat-form-field>
-    <div [formGroup]="formGroup.get('content')">
-      <mat-form-field appearance="fill">
-        <mat-label>문제 설명</mat-label>
-        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainProblem"></textarea>
-      </mat-form-field>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      문제 본문 PDF첨부
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+          <mat-list>
+            <mat-list-item *ngFor="let image of this.contentPDF">
+
+              <div mat-line>{{image.filename}}</div>
+              <div mat-line> {{image.size/1024}}KB <mat-icon (click)='this.deleteImage(image)'>delete</mat-icon>
+              </div>
+
+            </mat-list-item>
+          </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="button-wrapper">
+          <button type="button" class="file-input cursor" [class.pointer]="!disabled" appFileChooser (filesChange)="handleFiles($event)"
+            accept="*" [multiple]="true" [disabled]="disabled">파일 제출
+          </button>
     </div>
+  </mat-card-actions>
+</mat-card>
     <mat-action-row>
-      <button mat-button color="primary" type="button" (click)="formGroup.get('title').valid && formGroup.get('content').get('explainProblem').valid ? nextStep() : 1">Next</button>
+      <button mat-button color="primary" type="button" (click)="formGroup.get('title').valid ? nextStep() : 1">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        입출력
+        입출력 예제 파일
       </mat-panel-title>
       <mat-panel-description>
-        입출력 형태 설명 및 예제
+        ex)01.in, 01.out
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div [formGroup]="formGroup.get('content')">
-      <mat-form-field appearance="fill">
-        <mat-label>입력 형태 설명</mat-label>
-        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainInput"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>출력 형태설명</mat-label>
-        <textarea matInput matTextareaAutosize [errorStateMatcher]="errorMatcher" formControlName="explainOutput"></textarea>
-      </mat-form-field>
-    </div>
       <mat-card >
         <mat-card-header>
           <mat-card-title>
@@ -61,7 +70,7 @@
             </mat-form-field>
           </mat-list-item>
         </mat-list>
-      </mat-card-content>
+        </mat-card-content>
         <mat-card-actions>
       <div class="button-wrapper">
         <button type="button"
@@ -78,7 +87,7 @@
         </mat-card-actions>
       </mat-card>
       <mat-action-row>
-        <button mat-button color="primary" type="button" (click)="formGroup.get('content').get('explainInput').valid && formGroup.get('content').get('explainOutput').valid ? nextStep() : 1">Next</button>
+        <button mat-button color="primary" type="button" (click)="nextStep()">Next</button>
       </mat-action-row>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
@@ -86,6 +95,9 @@
       <mat-panel-title>
         채점용 파일
       </mat-panel-title>
+      <mat-panel-description>
+        ex)01.in, 01.out
+      </mat-panel-description>
     </mat-expansion-panel-header>
     <span *ngIf="this.Ios.length">{{this.Ios.length}}개의 입출력쌍이 입력되었습니다.</span>
     <mat-action-row>

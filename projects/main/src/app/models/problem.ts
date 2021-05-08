@@ -6,12 +6,9 @@ export interface Io{
 
 export interface Problem{
   _id: string,
-  no?: number,
   title: string,
   content: {
-    explainProblem:string,
-    explainInput: string,
-    explainOutput: string
+    contentPDF: Array<string>
     ioSample: Array<Io>
   },
   contest: string,

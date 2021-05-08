@@ -24,6 +24,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { ProblemPostComponent } from './problem-post/problem-post.component';
+import { ProblemDetailComponent } from './problem-detail/problem-detail.component';
+import { ProblemListComponent } from './problem-list/problem-list.component';
+import {MatTableModule} from '@angular/material/table';
 @NgModule({
   declarations: [
     ContestDetailComponent,
@@ -33,6 +36,8 @@ import { ProblemPostComponent } from './problem-post/problem-post.component';
     ContestApplyComponent,
     DialogContentExampleDialog,
     ProblemPostComponent,
+    ProblemDetailComponent,
+    ProblemListComponent
   ],
   imports: [
     MatExpansionModule,
@@ -54,6 +59,7 @@ import { ProblemPostComponent } from './problem-post/problem-post.component';
     ContestRoutingModule,
     FileModule,
     MatDialogModule,
+    MatTableModule
   ],
   entryComponents: [
     MatDialogModule

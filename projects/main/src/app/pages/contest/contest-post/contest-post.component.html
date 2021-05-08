@@ -90,7 +90,9 @@
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
           </span>
+          <mat-action-row>
             <button mat-button color="primary" type="button" (click)="formGroup.get('progressPeriod').valid && formGroup.get('registerPeriod').valid ? nextStep() : 1">Next</button>
+          </mat-action-row>
           </mat-expansion-panel>
 
         <mat-expansion-panel  [expanded]="step === 2" (opened)="setStep(2); file.disabled=false" #file hideToggle disabled>
@@ -124,17 +126,15 @@
           </span>
 
         <div class="button-wrapper">
-          <button mat-raised-button color="primary" type="submit" (click)='nextSubjectStep()'>콘테스트 등록</button>
+          <button mat-raised-button color="primary" (click)='submit();nextSubjectStep();problemCreate.disabled = false;'>콘테스트 등록</button>
         </div>
 
         </mat-expansion-panel>
-
-
       </form>
     </mat-accordion>
   </mat-expansion-panel>
 
-  <mat-expansion-panel  [expanded]="subjectStep === 1" (opened)="setSubjectStep(1); contestForm.disabled=true" hideToggle>
+  <mat-expansion-panel disabled  #problemCreate [expanded]="subjectStep === 1" (opened)="setSubjectStep(1);" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
         <h3>문제 추가</h3>
@@ -142,10 +142,22 @@
       <mat-panel-description>
       </mat-panel-description>
     </mat-expansion-panel-header>
-      <sw-problem-post [contest]='post' (posted)='addProblem($event)'>  </sw-problem-post>
+      <sw-problem-post [contest]='post' (posted)='addProblem($event); '>  </sw-problem-post>
   </mat-expansion-panel>
+
+    <mat-expansion-panel *ngFor='let problemId of post?.problems; let i = index' [attr.data-index]='i'
+    [expanded]="subjectStep === i+1"
+      (opened)="setSubjectStep(i+1);" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3>문제{{i+1}}</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+</mat-accordion>
+
+
   <div class="button-wrapper">
     <button mat-raised-button color="primary" type="button" (click)='finalApply()'>최종 제출</button>
   </div>
-
-</mat-accordion>
