@@ -21,7 +21,9 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button [routerLink]="['/contests', contest._id]">상세내용</button>
+
     <button mat-button (click)="enrollUser(contest._id)">등록하기</button>
+    <button mat-button (click)="unenrollUser(contest._id)">등록취소하기</button>
     <!-- <sw-contest-apply>hi</sw-contest-apply>-->
   </mat-card-actions>
 </mat-card>

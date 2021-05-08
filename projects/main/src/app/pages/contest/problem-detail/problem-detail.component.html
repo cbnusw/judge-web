@@ -10,8 +10,7 @@
   </div>
     <mat-list>
       <mat-list-item *ngFor="let io of this.post?.content.ioSample">
-        <mat-form-field *ngIf="io?.in != undefined" appearance="fill">
-          <mat-label>입력</mat-label>
+        <mat-form-field *ngIf="io?.in != undefined" appearance="fill">            <mat-label>입력</mat-label>
           <textarea matTextareaAutosize readonly class='example-io' matInput [value]=""></textarea>
         </mat-form-field>
         <mat-form-field *ngIf="io?.out != undefined" appearance="fill">
@@ -21,3 +20,4 @@
       </mat-list-item>
     </mat-list>
 </mat-card>
+

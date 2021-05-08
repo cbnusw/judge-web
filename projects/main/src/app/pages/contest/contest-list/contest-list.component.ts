@@ -27,6 +27,18 @@ export class ContestListComponent implements OnInit {
       else alert(err.error.message);
     })
   }
+
+  //unenrolling User
+  protected unenrollUser = function (_id: any) {
+    const userId = this.authService.me._id;
+    const contestId = _id;
+    return this.detail.postunEnrollments(userId, contestId).subscribe(res => {
+      alert("참가 취소되었습니다.");
+    }, err => {
+      if (err.error.code == ERROR_CODES.CONTEST_USER_DUPLICATED) alert(err.error.message);
+      else alert(err.error.message);
+    })
+  }
   
   ngOnInit(): void {
   }

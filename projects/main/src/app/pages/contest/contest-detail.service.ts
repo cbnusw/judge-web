@@ -62,4 +62,8 @@ export class ContestDetailService {
     return this.http.post<Response<undefined>>(`${this.CONTEST_URL}/enroll`, { userId, contestId }).pipe(map(res => res.success));
   }
 
+  postunEnrollments(userId: string, contestId: string): Observable<boolean> {
+    return this.http.post<Response<undefined>>(`${this.CONTEST_URL}/unenroll`, { userId, contestId }).pipe(map(res => res.success));
+  }
+
 }

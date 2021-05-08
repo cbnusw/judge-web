@@ -30,6 +30,7 @@ export class ContestDetailComponent implements OnInit {
   checkWriter():boolean{
     return this.auth.me.info._id == this.post?.writer._id
   }
+  
   checkAttender(): boolean{
     return this.post?.attendedStudents.includes(this.auth.me.info._id)
   }
