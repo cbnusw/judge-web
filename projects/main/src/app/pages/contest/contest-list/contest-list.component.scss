@@ -2,10 +2,13 @@
   max-width: 400px;
   margin: auto;
   align-self: left;
+  margin-bottom: 50px;
 }
+
 mat-card {
   margin: None;
 }
+
 .example-header-image {
   background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;

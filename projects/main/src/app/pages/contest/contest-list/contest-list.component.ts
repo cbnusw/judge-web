@@ -27,6 +27,7 @@ export class ContestListComponent implements OnInit {
       else alert(err.error.message);
     })
   }
+  
   ngOnInit(): void {
   }
 
