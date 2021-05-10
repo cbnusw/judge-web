@@ -9,13 +9,13 @@
     <img *ngIf='this.pictureReg.test(image.filename)' [src]="UPLOAD_URL+'/'+image+'/download'">
   </div>
     <mat-list>
-      <mat-list-item *ngFor="let io of this.post?.content.ioSample">
+      <mat-list-item *ngFor="let io of ioExample">
         <mat-form-field *ngIf="io?.in != undefined" appearance="fill">            <mat-label>입력</mat-label>
-          <textarea matTextareaAutosize readonly class='example-io' matInput [value]=""></textarea>
+          <textarea matTextareaAutosize readonly class='example-io' matInput [value]="io.in"></textarea>
         </mat-form-field>
         <mat-form-field *ngIf="io?.out != undefined" appearance="fill">
           <mat-label>출력</mat-label>
-          <textarea matTextareaAutosize readonly class='example-io' matInput [value]=""></textarea>
+          <textarea matTextareaAutosize readonly class='example-io' matInput [value]="io.out"></textarea>
         </mat-form-field>
       </mat-list-item>
     </mat-list>

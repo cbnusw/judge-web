@@ -30,9 +30,10 @@ export class ContestDetailComponent implements OnInit {
   checkWriter():boolean{
     return this.auth.me.info._id == this.post?.writer._id
   }
-  
+
   checkAttender(): boolean{
-    return this.post?.attendedStudents.includes(this.auth.me.info._id)
+    console.log( this.post?.attendedStudents,this.auth.me.info._id,this.post?.attendedStudents.includes(this.auth.me.info._id))
+    return this.post?.attendedStudents.includes(this.auth.me._id)
   }
 
   routeToProblemList() {

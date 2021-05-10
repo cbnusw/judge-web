@@ -19,26 +19,35 @@ export class ProblemDetailComponent implements OnInit {
   pictures: Array<any>
   UPLOAD_URL: string = environment.uploadHost
   isWriter: boolean
-  ioExample: Array<{in:string,out:string}>
+  ioExample: Array<{in:string,out:string}> = []
   @Input() _id: string;
   constructor(
     private route: ActivatedRoute,
     private detail: ContestDetailService,
-    private auth:AuthService,
+    private auth: AuthService,
     private router: Router,
   ) {
-      this.route.paramMap.subscribe((params: ParamMap) => {
-        this.detail.getProblem(params.get('id')).subscribe(res => {
-          this.post = res; console.log(this.post);
-        });
-      });
-
-
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.detail.getProblem(params.get('id')).subscribe(res => {
+        this.post = res; console.log(this.post);
+        of(...res.content.ioSample).subscribe(res => {
+          this.detail.getImageFromId(res.in).then(text => {
+            this.detail.getImageFromId(res.out).then(text2 => {
+              this.ioExample.push({ in: text, out: text2 });
+              console.log(this.ioExample)
+            })
+          })
+        }
+        );
+      })
+    })
     }
 
   checkWriter():boolean{
-    return this.auth.me.info._id == this.post?.writer._id
+    return this.auth.me?.info._id == this.post?.writer._id
   }
+
+
 
   deleteProblem():void{
     this.detail.deleteProblem(this.post._id).subscribe(console.log);
