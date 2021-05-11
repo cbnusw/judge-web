@@ -33,7 +33,7 @@ export class ContestDetailComponent implements OnInit {
 
   checkAttender(): boolean{
     console.log( this.post?.attendedStudents,this.auth.me.info._id,this.post?.attendedStudents.includes(this.auth.me.info._id))
-    return this.post?.attendedStudents.includes(this.auth.me._id)
+    return this.post?.attendedStudents.includes(this.auth.me.info._id)
   }
 
   routeToProblemList() {
