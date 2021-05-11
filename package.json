@@ -3,12 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "npx ng",
-    "start": "npm cache clean --force && npm rebuild && npx npm-run-all --parallel start:*",
-    "start:main": "npx ng serve main",
-    "build": "npx npm-run-all build:app",
-    "build:app": "npx npm-run-all --parallel build:app:*",
-    "build:app:main": "npx ng build --prod --aot main",
-    "build:gh-pages": "npx ng build --prod --output-path docs --base-href=/judge-web/ main",
+    "start": "npx ng serve",
+    "build": "npx ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

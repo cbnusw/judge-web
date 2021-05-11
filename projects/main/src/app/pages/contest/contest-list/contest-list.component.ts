@@ -16,7 +16,10 @@ export class ContestListComponent implements OnInit {
   changeDetected: boolean;
   num: number = 1;
   constructor(private http: HttpClient, private detail: ContestDetailService, private authService: AuthService, private route: ActivatedRoute, private router:Router) {
-    detail.getContests().subscribe(res => { this.contests = res.data; console.log(this.contests); this.num += 1;})
+    detail.getContests().subscribe(res => {
+      this.contests = res.data;
+      //console.log(this.contests); this.num += 1;
+    })
 
   }
 

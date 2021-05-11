@@ -23,7 +23,10 @@ export class ContestDetailComponent implements OnInit {
     private router:Router
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.detail.getContest(params.get('id')).subscribe(res=>{this.post=res;console.log(this.post)});
+      this.detail.getContest(params.get('id')).subscribe(res => {
+        this.post = res;
+        //console.log(this.post)
+      });
     });
   }
 
@@ -32,7 +35,7 @@ export class ContestDetailComponent implements OnInit {
   }
 
   checkAttender(): boolean{
-    console.log( this.post?.attendedStudents,this.auth.me.info._id,this.post?.attendedStudents.includes(this.auth.me.info._id))
+    //console.log( this.post?.attendedStudents,this.auth.me.info._id,this.post?.attendedStudents.includes(this.auth.me.info._id))
     return this.post?.attendedStudents.includes(this.auth.me.info._id)
   }
 
@@ -41,7 +44,7 @@ export class ContestDetailComponent implements OnInit {
   }
 
   deleteContest():void{
-    this.detail.deleteContest(this.post._id).subscribe(console.log);
+    this.detail.deleteContest(this.post._id).subscribe(()=>{});
     this.router.navigateByUrl('/contests');
   }
   ngOnInit(): void {

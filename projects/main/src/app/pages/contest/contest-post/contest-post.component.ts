@@ -65,7 +65,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
     super(formBuilder)
     this.images = [];
     this.problems = [];
-    console.log(this.formGroup);
+    //console.log(this.formGroup);
     this.isSubmitted = false
   }
 
@@ -106,7 +106,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
     m.progressPeriod.to = new Date(new Date(this.formGroup.get('progressDay').value.setMinutes(m.progressPeriod.to.split(':')[1])).setHours(m.progressPeriod.to.split(':')[0]))
     m.pictures = []
     this.images.map(a => m.pictures.push({ url: a._id }))
-    console.log(m);
+    //console.log(m);
     this.subjectStep = 1;
     return this.detail.postContest(m).pipe(map(res => { this.post = res.data; return res.success; }))
   }
@@ -117,12 +117,14 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
       mergeMap(file => this.uploadService.upload(file))
     ).subscribe(res => {
       this.images.push(res);
-      console.log(this.images);
+      //console.log(this.images);
     })
   }
 
   deleteImage(image: any): void {
-    this.uploadService.deleteById(image._id).subscribe((res) => { console.log(res); alert(`${image.filename} 업로드를 취소하였습니다.`); this.images.splice(this.images.indexOf(image)); });
+    this.uploadService.deleteById(image._id).subscribe((res) => { //console.log(res);
+      alert(`${image.filename} 업로드를 취소하였습니다.`); this.images.splice(this.images.indexOf(image));
+    });
   }
 
 
@@ -131,7 +133,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
   }
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    console.log(this.images);
+    //console.log(this.images);
     if (!this.isSubmitted)
       of(...this.images).pipe(
         map(image => image._id)
@@ -144,7 +146,7 @@ export class ContestPostComponent extends AbstractFormDirective<Contest, Boolean
   }
   addProblem(id:string):void {
     this.post.problems.push(id);
-    console.log(this.post);
+    //console.log(this.post);
     this.nextSubjectStep();
   }
 }

@@ -14,7 +14,7 @@ export class ContestApplyComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 

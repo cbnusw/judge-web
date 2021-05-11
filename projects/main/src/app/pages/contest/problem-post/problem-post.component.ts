@@ -40,7 +40,7 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
 
   nextStep() {
     this.step++;
-    console.log(this.contest)
+    //console.log(this.contest)
   }
 
   prevStep() {
@@ -103,19 +103,23 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
           this.detail.getImageFromId(this.exampleIos[index].out).then(res => { this.previewExampleIos[index]['out'] = res })
 
         }
-        console.log(this.exampleIos, this.previewExampleIos)
+        //console.log(this.exampleIos, this.previewExampleIos)
       })
     }
 
     deleteImage(image:any): void{
-    this.upload.deleteById(image._id).subscribe((res) => {console.log(res);alert(`${image.filename} 업로드를 취소하였습니다.`); this.contentPDF.splice(this.contentPDF.indexOf(image));});
+      this.upload.deleteById(image._id).subscribe((res) => {
+        //console.log(res);
+        alert(`${image.filename} 업로드를 취소하였습니다.`);
+        this.contentPDF.splice(this.contentPDF.indexOf(image));
+      });
   }
     handleFiles(files: File[]): void {
     of(...files).pipe(
       mergeMap(file => this.upload.upload(file))
     ).subscribe(res => {
       this.contentPDF.push(res);
-      console.log(this.contentPDF);
+      //console.log(this.contentPDF);
     })
   }
     handleIo(files: File[], ): void {
@@ -127,7 +131,8 @@ export class ProblemPostComponent extends AbstractFormDirective<Problem, boolean
         if(this.inReg.test(res.filename))
         this.Ios[index].in = res._id;
         else if(this.outReg.test(res.filename))this.Ios[index].out = res._id;
-        console.log(this.Ios, res);
+
+        //console.log(this.Ios, res);
       })
     }
 

@@ -29,12 +29,13 @@ export class ProblemDetailComponent implements OnInit {
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.detail.getProblem(params.get('id')).subscribe(res => {
-        this.post = res; console.log(this.post);
+        this.post = res;
+        //console.log(this.post);
         of(...res.content.ioSample).subscribe(res => {
           this.detail.getImageFromId(res.in).then(text => {
             this.detail.getImageFromId(res.out).then(text2 => {
               this.ioExample.push({ in: text, out: text2 });
-              console.log(this.ioExample)
+              //console.log(this.ioExample)
             })
           })
         }
@@ -50,7 +51,7 @@ export class ProblemDetailComponent implements OnInit {
 
 
   deleteProblem():void{
-    this.detail.deleteProblem(this.post._id).subscribe(console.log);
+    this.detail.deleteProblem(this.post._id).subscribe(()=>{});
     this.router.navigateByUrl(`/contests/${this.post.contest._id}/problem`);
   }
   ngOnInit(): void {
