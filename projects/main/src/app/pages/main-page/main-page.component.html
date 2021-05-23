@@ -1,1 +1,36 @@
-<div (click)="toggleHideMenu()"></div>
+<div class="main-image mb-4"
+     swBackgroundPosition="center"
+     swBackgroundSize="cover"
+     swBackgroundImage="assets/images/main.jpg">
+    <div class="main-container p-6">
+        <h3>충북대학교 SW중심대학사업단</h3>
+        <h1 class="mt-4"><span class="text-accent">ONLINE JUDGE</span> 시스템</h1>
+    </div>
+</div>
+<div class="main-container flex py-2">
+    <div class="contests-container p-2 me-2">
+        <h3 class="mb-3">참가신청 중인 콘테스트</h3>
+        <sw-applying-contest-list class="p-1 border"></sw-applying-contest-list>
+    </div>
+    <div class="my-container p-2 w-33">
+        <ng-container *ngIf="auth.loggedIn; else loginTamplate">
+            <p class="font-s mb-1 text-right">
+                <span class="text-primary fw-700">
+                    <a [href]="myPageUrl">{{auth.me?.name}}</a>
+                </span>님 로그인 중
+            </p>
+            <h3 class="mb-2">참가 중인 콘테스트</h3>
+            <div class="p-2 border mb-2">참가 중인 콘테스트가 없습니다.</div>
+            <div class="flex justify-end">
+                <button mat-button (click)="auth.logout()">로그아웃</button>
+            </div>
+        </ng-container>
+        <ng-template #loginTamplate>
+            <h3 class="mb-3">
+                <span class="text-primary fw-900 font-l">SW </span>
+                <span class="text-accent fw-900 font-l">ONLINE JUDGE</span> 로그인
+            </h3>
+            <sw-login-form></sw-login-form>
+        </ng-template>
+    </div>
+</div>

@@ -1,16 +1,20 @@
-import{Contest} from './contest'
-export interface Io{
-  in:string,
-  out:string
+import { IUserInfo } from './user-info';
+
+export interface IProblemContent {
+  content: string;
+  type: ['html', 'pdf'];
 }
 
-export interface Problem{
-  _id: string,
-  title: string,
-  content: {
-    contentPDF: Array<string>
-    ioSample: Array<Io>
-  },
-  contest: string,
-  io: Array<Io>
+export interface IInputOutput {
+  inFile: string;
+  outFile: string;
+}
+
+export interface IProblem {
+  _id?: string;
+  title?: string;
+  content?: IProblemContent;
+  contest?: string;
+  ioSet?: Array<IInputOutput>;
+  writer?: IUserInfo;
 }

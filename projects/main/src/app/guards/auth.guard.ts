@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
-import { REDIRECT_URL_KEY, StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return true;
     }
     this.storageService.redirectUrl = state.url;
-    this.router.navigateByUrl('account/login');
+    this.router.navigateByUrl(environment.loginPageUrl);
     return false;
   }
 }

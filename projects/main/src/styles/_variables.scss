@@ -12,7 +12,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $main-primary: mat-palette($mat-indigo);
-$main-accent: mat-palette($mat-pink, A200, A100, A400);
+$main-accent: mat-palette($mat-green);
 
 // The warn palette is optional (defaults to red).
 $main-warn: mat-palette($mat-red);
@@ -30,3 +30,6 @@ $main-theme: mat-light-theme(
 );
 
 $header-height: 64px;
+$main-width: 1200px;
+$default-color: #333;
+$border-color: rgba(0, 0, 0, 0.12);

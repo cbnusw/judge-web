@@ -1,18 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/contests', pathMatch: 'full' },
-  { path: 'main', canActivate: [AuthGuard], component: MainPageComponent },
-  { path: 'account', loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule) },
-  { path: 'contests', loadChildren: () => import('./pages/contest/contest.module').then(m => m.ContestModule) }
+  { path: '', redirectTo: '/main', pathMatch: 'full' },
+  { path: 'main', component: MainPageComponent },
+  {
+    path: 'contest',
+    loadChildren: () => import('./pages/contest-pages/contest-pages.module').then(m => m.ContestPagesModule)
+  },
+  {
+    path: 'account',
+    canActivate: [NotAuthGuard],
+    loadChildren: () => import('./pages/account-pages/account-pages.module').then(m => m.AccountPagesModule)
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

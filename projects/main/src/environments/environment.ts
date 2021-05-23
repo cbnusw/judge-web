@@ -4,9 +4,11 @@
 
 export const environment = {
   production: false,
-  authHost: 'http://cbnuoss.iptime.org:3500',
-  apiHost: 'http://cbnuoss.iptime.org:3501/v1',
-  uploadHost: 'http://cbnuoss.iptime.org:3502'
+  authHost: 'http://localhost:3000',
+  apiHost: 'http://localhost:4003',
+  apiVersion: 'v1',
+  loginPageUrl: '/account/login',
+  joinPageUrl: 'http://localhost:8080/account/join',
 };
 
 /*

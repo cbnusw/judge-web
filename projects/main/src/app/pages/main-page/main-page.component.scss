@@ -1,6 +1,15 @@
 @import "variables";
 
+.main-image {
+  height: 30vh;
+  min-height: 300px;
+  color: rgba(255, 255, 255, 0.75);
+}
 
-.error {
-  color: mat-color($main-warn);
+.contests-container {
+  flex-grow: 1;
+}
+
+.my-container {
+  flex-shrink: 0;
 }

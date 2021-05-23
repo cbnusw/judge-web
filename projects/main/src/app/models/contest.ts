@@ -1,26 +1,20 @@
-import {User} from './user'
-import {Problem} from './problem'
+import { IUserInfo } from './user-info';
 
-export interface Picture{
-  url:string
+export interface IPeriod {
+  start: Date;
+  end: Date;
 }
 
 
-
-export interface Contest{
-  _id: string,
-  title:string,
-  pictures?: Array<Picture>,
-  writer: User,
-  content: string,
-  problems?: Array<string>,
-  registerPeriod: {
-    from: Date, //등록 기간
-    to: Date
-  },
-  progressPeriod: {
-    from: any, //시간
-    to: any
-  },
-  attendedStudents?: Array<User>
+export interface IContest{
+  _id?: string;
+  title?: string;
+  content?: string;
+  writer?: IUserInfo;
+  problems?: Array<string>;
+  applyingPeriod?: IPeriod;
+  testPeriod: IPeriod;
+  contestants?: Array<IUserInfo>;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

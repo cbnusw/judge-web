@@ -38,7 +38,9 @@
             "styles": [
               "projects/main/src/styles/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@ckeditor/ckeditor5-build-decoupled-document/build/translations/ko.js"
+            ]
           },
           "configurations": {
             "production": {

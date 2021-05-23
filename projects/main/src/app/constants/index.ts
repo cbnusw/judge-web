@@ -1,3 +1,7 @@
+export const FILE_TYPES = [
+  'Problem',
+];
+
 export const ROLES = [
   'admin',
   'operator',
@@ -6,16 +10,6 @@ export const ROLES = [
 ];
 
 export const PERMISSIONS = [
-  'all',
-  'corruption report',
-  'gallery',
-  'newsletter',
-  'notice',
-  'online judage',
-  'operator',
-  'press release',
-  'resource',
+  'judge',
   'qna',
-  'staff',
-  'student',
 ];

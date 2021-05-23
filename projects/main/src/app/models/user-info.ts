@@ -1,14 +1,15 @@
-import { TRole } from './user';
+import { PERMISSIONS, ROLES } from '../constants';
 
-export interface UserInfo {
+export interface IUserInfo {
   _id?: string;
   image?: string;
   no?: string;
   name?: string;
   email?: string;
   phone?: string;
-  // center?: string;
+  center?: string;
   department?: string;
   position?: string;
-  roles?: Array<TRole>;
+  permissions?: Array<typeof PERMISSIONS[number]>;
+  role?: typeof ROLES[number];
 }

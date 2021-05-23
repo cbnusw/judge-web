@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
-import { SideMenuService } from '../../services/side-menu.service';
 
 
 @Component({
@@ -10,22 +10,16 @@ import { SideMenuService } from '../../services/side-menu.service';
 })
 export class HeaderComponent implements OnInit {
 
-  hiddenSideMenu: boolean;
+  joinPageUrl = environment.joinPageUrl;
 
-  constructor(
-    public authService: AuthService,
-    private sideMenuService: SideMenuService,
-  ) {
-    this.hiddenSideMenu = this.sideMenuService.hidden;
+  constructor(public auth: AuthService) {
   }
 
-  toggleSideMenu(): void {
-    this.hiddenSideMenu = !this.hiddenSideMenu;
-    this.sideMenuService.hidden = this.hiddenSideMenu;
-    
+  logout(): boolean {
+    this.auth.logout();
+    return false;
   }
 
   ngOnInit(): void {
   }
-
 }

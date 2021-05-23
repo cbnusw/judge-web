@@ -1,0 +1,60 @@
+<form class="main-container mt-4" [formGroup]="formGroup" (ngSubmit)="submit()">
+    <h2 class="page-title mb-1">콘테스트 등록</h2>
+    <div class="py-2 border-bottom">
+        <mat-form-field class="w-75">
+            <mat-label>콘테스트명</mat-label>
+            <input matInput
+                   autocomplete="off"
+                   formControlName="title"
+                   [errorStateMatcher]="errorMatcher"
+                   placeholder="Ex.2021년 프로그래밍 경진대회"/>
+            <mat-hint>콘테스트명을 입력해주세요.</mat-hint>
+            <mat-error *ngIf="hasError('required', 'title')">
+                콘테스트명은 필수 입력 항목입니다.</mat-error>
+        </mat-form-field>
+        <div class="flex justify-end font-s">작성자: {{auth.me?.name}}</div>
+    </div>
+
+    <div class="mb-2">
+        <ckeditor formControlName="content"
+                  [class.has-error]="invalid('content')"
+                  [editor]="Editor"
+                  [config]="config"
+                  (ready)="onReady($event)"></ckeditor>
+        <span class="error block"
+              *ngIf="hasError('required', 'content')">
+            콘테스트의 내용은 필수 입력 항목입니다.</span>
+    </div>
+
+    <div class="mb-4">
+        <label class="mb-1">대회 시간</label>
+        <sw-period-control [errorStateMatcher]="errorMatcher"
+                           formControlName="testPeriod"></sw-period-control>
+        <span class="error block relative period-error"
+              *ngIf="hasError('required', 'testPeriod')">콘테스트 진행시간을 설정해주세요.</span>
+        <span class="error block relative period-error"
+              *ngIf="hasError('invalidPeriod', 'testPeriod')">시작시간은 종료시간 이전이어야 합니다.</span>
+    </div>
+
+    <div class="mb-4">
+        <mat-checkbox color="primary" formControlName="isApplyingPeriod">신청기간 설정</mat-checkbox>
+        <span class="help block">
+            <i class="las la-info-circle me-1"></i>
+            신청기간을 설정하지 않은 경우 콘테스트가 시작하기 전까지 언제든 신청이 가능합니다.
+        </span>
+        <sw-period-control *ngIf="isApplyingPeriod"
+                           [errorStateMatcher]="errorMatcher"
+                           formControlName="applyingPeriod"></sw-period-control>
+        <span class="error block relative period-error"
+              *ngIf="hasError('requiredApplyingPeriod')">신청기간을 설정해주세요.</span>
+        <span class="error block relative period-error"
+              *ngIf="hasError('invalidApplyingPeriod')">시작시간은 종료시간 이전이어야 합니다.</span>
+        <span class="error block relative period-error"
+              *ngIf="hasError('overlapApplyingPeriod')">신청기간은 콘테스트 시작시간 이전이어야 합니다.</span>
+    </div>
+
+    <div class="flex justify-end">
+        <a class="me-2" mat-flat-button (click)="cancel()">취소</a>
+        <button mat-flat-button color="primary">{{modifying ? '수정' : '등록'}}</button>
+    </div>
+</form>

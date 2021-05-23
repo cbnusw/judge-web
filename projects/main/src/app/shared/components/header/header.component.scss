@@ -1,18 +1,34 @@
-mat-toolbar {
+@import "variables";
+
+:host {
+  display: block;
   position: sticky;
   top: 0;
+  background-color: white;
+  z-index: 10;
 }
 
-.logo {
-  margin-right: auto;
+.main-container {
+  display: flex;
+  height: $header-height;
+  box-sizing: border-box;
 }
 
-a {
-  color: white;
-  text-decoration: none;
+.brand-wrapper {
+  flex-grow: 0;
+
+  .brand-image {
+    height: 40px;
+  }
+
+  .brand-name {
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-weight: 500;
+
+    .text-primary {
+      font-weight: 900;
+    }
+  }
 }
 
-.account {
-  margin: 0 0.5em;
-  font-size: 0.6em;
-}

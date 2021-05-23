@@ -7,12 +7,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { HeaderComponent } from './components/header/header.component';
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { SideMenuService } from './services/side-menu.service';
 
 
 @NgModule({
-  declarations: [HeaderComponent, SideMenuComponent],
+  declarations: [HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -21,7 +19,6 @@ import { SideMenuService } from './services/side-menu.service';
     MatSidenavModule,
     MatToolbarModule,
   ],
-  exports: [HeaderComponent, SideMenuComponent],
-  providers: [SideMenuService]
+  exports: [HeaderComponent],
 })
 export class SharedModule { }

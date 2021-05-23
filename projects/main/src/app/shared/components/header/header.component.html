@@ -1,29 +1,17 @@
-<mat-toolbar color="primary" class="mat-elevation-z2">
-  <!--
-    <button
-    mat-icon-button
-    class="example-icon"
-    (click)="toggleSideMenu()"
-    *ngIf="authService.loggedIn"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
-    -->
-  <a class="logo" routerLink="/contests">Online Judage</a>
-  <a class="account" routerLink="/account/join" *ngIf="!authService.loggedIn"
-    >회원가입</a
-  >
-  <a class="account" routerLink="/account/login" *ngIf="!authService.loggedIn"
-    >로그인</a
-  >
-  <span class="account" *ngIf="authService.loggedIn"
-    ><a routerLink="/my-page">{{ authService.me?.info.name }}</a
-    >님 로그인 중</span
-  >
-  <a
-    class="account cursor pointer"
-    (click)="authService.logout()"
-    *ngIf="authService.loggedIn"
-    >로그아웃</a
-  >
-</mat-toolbar>
+<div class="main-container flex align-center">
+  <a class="flex brand-wrapper me-6" routerLink="/">
+    <img class="brand-image me-2" src="assets/images/logo.png" alt="logo image"/>
+    <div class="brand-name">
+      <span class="text-primary font-xl fw-900">SW</span><span class="font-l fw-900 text-accent"> ONLINE JUDGE</span>
+    </div>
+  </a>
+  <nav class="flex align-end grow-1 font-m me-auto">
+    <a class="px-1 me-2" routerLink="/contest/list/me" *ngIf="auth.isOperator$ | async">콘테스트 관리</a>
+  </nav>
+  <a class="cursor pointer font-s"
+     routerLink="/account/login"
+     *ngIf="!auth.loggedIn">로그인</a>
+  <a class="cursor pointer font-s"
+     (click)="logout()"
+     *ngIf="auth.loggedIn">로그아웃</a>
+</div>

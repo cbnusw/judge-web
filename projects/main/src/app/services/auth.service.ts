@@ -4,26 +4,27 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { AuthenticationTokens } from '../models/authentication-tokens';
-import { Response } from '../models/response';
-import { User } from '../models/user';
+import { RequestBase } from '../classes/request-base';
+import { IAuthenticationTokens } from '../models/authentication-tokens';
+import { IResponse } from '../models/response';
+import { IUserInfo } from '../models/user-info';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, StorageService, TOKEN_FLUSH_EVENT, TOKEN_SHARE_EVENT } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends RequestBase {
 
   private readonly BASE_URL = environment.authHost;
-  private meSubject: BehaviorSubject<User> = new BehaviorSubject(null);
-  me$: Observable<User> = this.meSubject.asObservable();
+  private meSubject: BehaviorSubject<IUserInfo> = new BehaviorSubject(null);
+  me$: Observable<IUserInfo> = this.meSubject.asObservable();
 
   constructor(
     private storageService: StorageService,
     private router: Router,
     private http: HttpClient,
   ) {
-
+    super(environment.apiHost);
     if (this.loggedIn) {
       this.init();
     }
@@ -33,19 +34,46 @@ export class AuthService {
     return !!this.storageService.get(ACCESS_TOKEN_KEY);
   }
 
-  get me(): User {
+  get me(): IUserInfo {
     return this.meSubject.value;
   }
 
-  join(user: User): Observable<boolean> {
-    return this.http.post<Response<undefined>>(`${this.BASE_URL}/join`, user).pipe(
-      map(res => res.success)
+  get isOperator(): boolean {
+    const { role } = this.me || {};
+    return role && ['admin', 'operator'].indexOf(role) !== -1;
+  }
+
+  get isOperator$(): Observable<boolean> {
+    return this.me$.pipe(
+      map(me => {
+        const { role } = this.me || {};
+        return role && ['admin', 'operator'].indexOf(role) !== -1;
+      })
+    );
+  }
+
+  get hasJudgePermission(): boolean {
+    const { role, permissions } = this.me || {};
+    if (role && ['admin', 'operator'].indexOf(role) !== -1) {
+      return true;
+    }
+    return (permissions || []).indexOf('judge') !== -1;
+  }
+
+  get hasJudgePermission$(): Observable<boolean> {
+    return this.me$.pipe(
+      map(me => {
+        const { role, permissions } = me || {};
+        if (role && ['admin', 'operator'].indexOf(role) !== -1) {
+          return true;
+        }
+        return (permissions || []).indexOf('judge') !== -1;
+      })
     );
   }
 
   login(no: string, password: string): Observable<boolean> {
-    // TODO: 추후 실 서버로 연동
-    return this.http.post<Response<AuthenticationTokens>>(`${this.BASE_URL}/login`, { no, password }).pipe(
+    return this.http.post<IResponse<IAuthenticationTokens>>(this.url`/auth/login`, { no, password }).pipe(
       tap(res => {
         this.initTokens(res.data);
         this.init();
@@ -58,20 +86,22 @@ export class AuthService {
     const refreshToken: string = this.storageService.get(REFRESH_TOKEN_KEY);
     this.clear();
     try {
-      await this.http.get(`${this.BASE_URL}/logout`, { headers: { 'x-refresh-token': refreshToken } }).toPromise();
+      await this.http.get(`${environment.authHost}/logout`, { headers: { 'x-refresh-token': refreshToken } }).toPromise();
     } catch (err) {
       console.error(err);
     }
-    this.router.navigateByUrl('/account/login');
+    const loggedInUrl = environment.loginPageUrl;
+    loggedInUrl.startsWith('/') ? await this.router.navigateByUrl('/account/login') : location.href = loggedInUrl;
   }
 
   getMe(): void {
-    this.http.get<Response<User>>(`${this.BASE_URL}/me`).subscribe(
+    this.http.get<IResponse<IUserInfo>>(this.url`/auth/me`).subscribe(
       res => this.meSubject.next(res.data)
     );
   }
 
-  private initTokens({ accessToken, refreshToken }: AuthenticationTokens): void {
+
+  private initTokens({ accessToken, refreshToken }: IAuthenticationTokens): void {
     this.storageService.set(ACCESS_TOKEN_KEY, accessToken);
     this.storageService.set(REFRESH_TOKEN_KEY, refreshToken);
     this.storageService.emit(TOKEN_SHARE_EVENT, { accessToken, refreshToken });
@@ -86,5 +116,4 @@ export class AuthService {
     this.storageService.emit(TOKEN_FLUSH_EVENT);
     this.meSubject.next(null);
   }
-
 }
