@@ -1,7 +1,7 @@
 <div class="p-2 border" *ngIf="documents?.length  === 0">
     참가 중인 콘테스트가 없습니다.
 </div>
-<div class="px-2 py-1 border cursor pointer hover"
+<div class="p-2 border cursor pointer hover"
      [class.mb-1]="i !== documents?.length - 1"
      *ngFor="let doc of documents; let i = index"
      [routerLink]="['/contest/detail', doc._id]">

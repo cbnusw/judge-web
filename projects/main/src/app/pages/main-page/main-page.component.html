@@ -9,21 +9,23 @@
         <h1 class="mt-4"><span class="text-accent">ONLINE JUDGE</span> 시스템</h1>
     </div>
 </div>
-<div class="main-container flex py-2 align-start">
-    <div class="contests-container p-2 me-2">
+<div class="main-container flex py-2">
+
+    <div class="contests-container p-2 me-2 border">
         <h3 class="mb-3">참가신청 중인 콘테스트</h3>
-        <sw-applying-contest-list class="p-1 border"></sw-applying-contest-list>
+        <sw-applying-contest-list></sw-applying-contest-list>
     </div>
-    <div class="my-container p-2 w-33 border">
+
+    <div class="my-container w-40 p-2 border">
         <ng-container *ngIf="auth.loggedIn; else loginTamplate">
-            <p class="font-s mb-1 flex justify-between align-center">
+            <p class="font-s flex justify-between align-center border-bottom mb-2 pb-1">
                 <span><span class="text-primary fw-700">
                     <a [href]="myPageUrl">{{auth.me?.name}}</a>
                 </span>님 로그인 중</span>
                 <button mat-button (click)="auth.logout()">로그아웃</button>
             </p>
             <h3 class="mb-2">참가 중인 콘테스트</h3>
-            <sw-my-registered-contest class="border p-1"></sw-my-registered-contest>
+            <sw-my-registered-contest></sw-my-registered-contest>
         </ng-container>
         <ng-template #loginTamplate>
             <h3 class="mb-3">
