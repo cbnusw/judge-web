@@ -5,7 +5,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
 })
 export class BackgroundColorDirective {
 
-  @HostBinding('style.background-blend-mode') backgroundColor = 'transparent';
+  @HostBinding('style.background-color') backgroundColor = 'transparent';
 
   constructor() {
   }

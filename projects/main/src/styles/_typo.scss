@@ -48,6 +48,12 @@
   color: mat-color($main-warn);
 }
 
+.line-ellipsis {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
 @include generate-text-alignment();
 @include generate-font-size();
 @include generate-font-weight();

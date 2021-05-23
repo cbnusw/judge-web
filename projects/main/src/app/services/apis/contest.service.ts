@@ -25,6 +25,10 @@ export class ContestService extends ApiBase {
     return this.http.get<IListResponse<IContest>>(this.url`/me`, { params: ApiBase.params(params) });
   }
 
+  getRegisteredContests(params?: IParams): Observable<IListResponse<IContest>> {
+    return this.http.get<IListResponse<IContest>>(this.url`/registered`, { params: ApiBase.params(params) });
+  }
+
   getApplyingContests(): Observable<IListResponse<IContest>> {
     return this.http.get<IListResponse<IContest>>(this.url`/applying`);
   }

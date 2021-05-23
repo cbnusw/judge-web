@@ -10,12 +10,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { MainPageComponent } from './main-page.component';
 import { ApplyingContestListComponent } from './components/applying-contest-list/applying-contest-list.component';
+import { MyRegisteredContestComponent } from './components/my-registered-contest/my-registered-contest.component';
 
 @NgModule({
   declarations: [
     MainPageComponent,
     LoginFormComponent,
     ApplyingContestListComponent,
+    MyRegisteredContestComponent,
   ],
   imports: [
     CommonModule,
