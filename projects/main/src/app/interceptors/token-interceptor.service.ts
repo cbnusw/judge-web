@@ -30,14 +30,14 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(err => {
-        console.log(err);
         if (err.error && err.error.code === ERROR_CODES.ACCESS_TOKEN_EXPIRED) {
           return this.refreshToken(request, next);
         }
         return throwError(err);
       }),
       catchError(err => {
-        if (err.status === 401 || err.error.status === 401) {
+        const { status } = (err || {}).error || (err || {});
+        if (status === 401 || status === 401) {
           const loginPageUrl = environment.loginPageUrl;
           this.storageService.clear();
           this.storageService.emit(TOKEN_FLUSH_EVENT);

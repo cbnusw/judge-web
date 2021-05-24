@@ -55,18 +55,14 @@ export class StorageService {
       const refreshToken = this.get(REFRESH_TOKEN_KEY);
       const accessToken = this.get(ACCESS_TOKEN_KEY);
 
-      if (event.key === TOKEN_SHARE_EVENT && refreshToken && accessToken) {
+      if (event.key === REQUEST_SHARE_TOKEN_EVENT && refreshToken && accessToken) {
         this.emit(TOKEN_SHARE_EVENT, { accessToken, refreshToken });
-      }
-
-      if (event.key === TOKEN_SHARE_EVENT && !(refreshToken || accessToken)) {
+      } else if (event.key === TOKEN_SHARE_EVENT && !(refreshToken || accessToken)) {
         const data = JSON.parse(event.newValue);
         this.set(REFRESH_TOKEN_KEY, data.refreshToken);
         this.set(ACCESS_TOKEN_KEY, data.accessToken);
         location.reload();
-      }
-
-      if (event.key === TOKEN_FLUSH_EVENT) {
+      } else if (event.key === TOKEN_FLUSH_EVENT) {
         this.clear();
       }
     }, false);
