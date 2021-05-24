@@ -53,6 +53,7 @@
 
 <div class="main-container">
     <h2 class="mb-2">참가자</h2>
+    <div class="mb-2 font-s">총 <span class="text-warn">{{contest?.contestants.length | number}}명</span>이 참가하고 있습니다.</div>
     <sw-contestants-list [contestants]="contest?.contestants"
                          [contestWriter]="contest?.writer._id">
     </sw-contestants-list>

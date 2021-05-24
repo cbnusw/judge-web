@@ -10,7 +10,6 @@ export class HideNoPipe implements PipeTransform {
   }
 
   transform(no: string, userId: string, writerId: string): string {
-    console.log(userId, writerId);
     if (this.auth.me && (this.auth.me._id === userId || this.auth.me._id === writerId)) {
       return no;
     }
