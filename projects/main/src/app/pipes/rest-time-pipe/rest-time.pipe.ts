@@ -32,7 +32,7 @@ export class RestTimePipe implements PipeTransform {
           if (day > 0) {
             return `${day}일`;
           } else if (hours > 0) {
-            return `${hours}시간`;
+            return `${hours}시간 ${minutes}분`;
           } else if (minutes > 0) {
             return `${minutes}분 ${seconds}초`;
           } else {
