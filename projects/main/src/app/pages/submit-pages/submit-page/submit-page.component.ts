@@ -1,4 +1,3 @@
-import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -8,12 +7,14 @@ import { AbstractFormDirective } from '../../../classes/abstract-form.directive'
 import { ErrorMatcher } from '../../../classes/error-matcher';
 import { PROGRAMMING_LANGUAGES } from '../../../constants';
 import { IContest } from '../../../models/contest';
+import { IFile } from '../../../models/file';
 import { IProblem } from '../../../models/problem';
 import { ISubmit } from '../../../models/submit';
 import { ContestService } from '../../../services/apis/contest.service';
 import { ProblemService } from '../../../services/apis/problem.service';
 import { AuthService } from '../../../services/auth.service';
 import { LayoutService } from '../../../services/layout.service';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'sw-submit-page',
@@ -32,10 +33,17 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
               public layout: LayoutService,
               private problemService: ProblemService,
               private contestService: ContestService,
+              private uploadSerivce: UploadService,
               private route: ActivatedRoute,
               private router: Router,
               fb: FormBuilder) {
     super(fb);
+  }
+
+
+  protected async mapToModel(m: ISubmit): Promise<ISubmit> {
+    m.source = (m.source as IFile).url;
+    return m;
   }
 
   protected async processAfterSubmission(s: boolean): Promise<void> {
@@ -48,6 +56,25 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
       queryParams.problem = this.problem._id;
     }
     await this.router.navigate(['/submit/list'], { queryParams });
+  }
+
+  get sourceFilename(): string {
+    const file: IFile = this.formGroup.get('source').value;
+    if (file) {
+      return file.filename;
+    }
+    return null;
+  }
+
+  changeSourceFile(files: File[]): void {
+    const file = files[0];
+    if (!file) {
+      alert('파일을 선택해주세요.');
+      return;
+    }
+    this.uploadSerivce.upload(file).subscribe(
+      res => this.formGroup.get('source').setValue(res.data)
+    );
   }
 
   cancel(): void {

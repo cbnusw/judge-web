@@ -27,8 +27,9 @@
 
         <div class="mb-2">
             <div class="flex justify-center align-center border hover cursor pointer py-4"
-                 swFileChooser>
-                <span class="text-50">소스 파일 선택</span>
+                 swFileChooser
+                 (filesChange)="changeSourceFile($event)">
+                <span class="text-50">{{sourceFilename || '소스 파일 선택'}}</span>
             </div>
             <div class="error" *ngIf="hasError('required', 'source')">
                 소스 파일은 필수 입력 항목입니다.
