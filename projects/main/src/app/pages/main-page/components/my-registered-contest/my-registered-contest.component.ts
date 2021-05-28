@@ -18,6 +18,6 @@ export class MyRegisteredContestComponent extends AbstractSearchDirective<IConte
   }
 
   protected requestObservable(params: IParams | undefined): Observable<IListResponse<IContest>> {
-    return this.contestService.getProgressingContests();
+    return this.contestService.getApplyingContests();
   }
 }
