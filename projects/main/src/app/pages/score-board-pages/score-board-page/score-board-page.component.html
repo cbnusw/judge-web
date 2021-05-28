@@ -1,1 +1,29 @@
-<p>score-board-page works!</p>
+<div class="main-container mt-2">
+    <h2 class="page-title mb-2">
+        <span class="text-primary">{{contest?.title}}</span> 스코어보드
+    </h2>
+    <div class="flex justify-end pb-2 mb-2 border-bottom">
+        <span class="text-warn fw-900" *ngIf="(contest?.testPeriod | periodRange | async) === 0">
+            {{contest?.testPeriod.end | restTime | async}} 후 대회 종료
+        </span>
+        <span class="text-primary" *ngIf="(contest?.testPeriod | periodRange | async) === 1">
+            대회 종료
+        </span>
+    </div>
+
+    <div class="flex justify-end mb-2">
+        <button type="button"
+                class="no-border-radius"
+                mat-flat-button
+                color="primary"
+                (click)="moveListPage()">문제보기</button>
+    </div>
+
+    <div class="border p-2 flex mb-2 border" *ngFor="let board of scoreboards">
+        <span class="me-auto">{{board.user.name}} ({{board.user.department}})</span>
+        <span class="total-score p-1 border text-primary fw-900">{{board.score}} / {{board.penalty}}</span>
+        <span class="score ms-2 p-1 border" *ngFor="let score of board.scores; let i = index;">
+            [{{i + 1}}] {{getPenalty(score)}}
+        </span>
+    </div>
+</div>

@@ -11,6 +11,8 @@ export interface IScore {
 
 export interface IScoreBoard {
   _id?: string;
+  score?: number;
+  penalty?: number;
   contest?: IContest;
   scores?: Array<IScore>;
   user?: IUserInfo;

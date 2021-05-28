@@ -43,10 +43,6 @@ export class ContestProblemListPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  drop(e: CdkDragDrop<IProblem, any>): void {
-    moveItemInArray(this.orderableProblems, e.previousIndex, e.currentIndex);
-  }
-
   get isWriter$(): Observable<boolean> {
     return this.auth.me$.pipe(
       map(me => {
@@ -56,6 +52,14 @@ export class ContestProblemListPageComponent implements OnInit, OnDestroy {
         return false;
       })
     );
+  }
+
+  drop(e: CdkDragDrop<IProblem, any>): void {
+    moveItemInArray(this.orderableProblems, e.previousIndex, e.currentIndex);
+  }
+
+  moveScoreBoard(): void {
+    this.router.navigate(['/scoreboard'], { queryParams: { contest: this.contest._id } });
   }
 
   ngOnInit(): void {
