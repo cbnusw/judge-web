@@ -25,6 +25,7 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
 
   contest: IContest;
   problem: IProblem;
+  selectedFile: IFile;
   languages = PROGRAMMING_LANGUAGES;
 
   errorMatcher = new ErrorMatcher(this.submitted$, this.submissionError$);
@@ -40,12 +41,6 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
     super(fb);
   }
 
-
-  protected async mapToModel(m: ISubmit): Promise<ISubmit> {
-    m.source = (m.source as IFile).url;
-    return m;
-  }
-
   protected async processAfterSubmission(s: boolean): Promise<void> {
     alert('문제에 대한 소스코드를 제출하였습니다.\n채점이 완료되면 알림이 옵니다.');
     const queryParams: Params = {};
@@ -59,9 +54,8 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
   }
 
   get sourceFilename(): string {
-    const file: IFile = this.formGroup.get('source').value;
-    if (file) {
-      return file.filename;
+    if (this.selectedFile) {
+      return this.selectedFile.filename;
     }
     return null;
   }
@@ -73,7 +67,10 @@ export class SubmitPageComponent extends AbstractFormDirective<ISubmit, boolean>
       return;
     }
     this.uploadSerivce.upload(file).subscribe(
-      res => this.formGroup.get('source').setValue(res.data)
+      res => {
+        this.selectedFile = res.data;
+        this.formGroup.get('source').setValue(res.url);
+      }
     );
   }
 
