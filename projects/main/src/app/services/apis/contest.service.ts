@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { IndexingContext } from '@angular/compiler-cli/src/ngtsc/indexer';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiBase } from '../../classes/api-base';
 import { IContest } from '../../models/contest';
 import { IParams } from '../../models/params';
+import { IProblem } from '../../models/problem';
 import { IListResponse, IResponse } from '../../models/response';
+
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +34,24 @@ export class ContestService extends ApiBase {
     return this.http.get<IListResponse<IContest>>(this.url`/applying`);
   }
 
+  getProgressingContests(): Observable<IListResponse<IContest>> {
+    return this.http.get<IListResponse<IContest>>(this.url`/progressing`);
+  }
+
   getContest(id: string): Observable<IResponse<IContest>> {
     return this.http.get<IResponse<IContest>>(this.url`/${id}`);
   }
 
+  getContestProblems(id: string): Observable<IResponse<IContest>> {
+    return this.http.get<IResponse<IContest>>(this.url`/${id}/problems`);
+  }
+
   createContest(body: IContest): Observable<IResponse<IContest>> {
     return this.http.post<IResponse<IContest>>(this.url`/`, body);
+  }
+
+  createContestProblem(id: string, body: IProblem): Observable<IResponse<IProblem>> {
+    return this.http.post<IResponse<IProblem>>(this.url`/${id}/problem`, body);
   }
 
   enrollContest(id: string): Observable<IResponse<undefined>> {
@@ -51,6 +64,14 @@ export class ContestService extends ApiBase {
 
   updateContest(id: string, body: IContest): Observable<IResponse<undefined>> {
     return this.http.put<IResponse<undefined>>(this.url`/${id}`, body);
+  }
+
+  updateContestProblem(id: string, problemId: string, body: IProblem): Observable<IResponse<undefined>> {
+    return this.http.put<IResponse<undefined>>(this.url`/${id}/problem/${problemId}`, body);
+  }
+
+  reorderContestProblems(id: string, problems: IProblem[]): Observable<IResponse<undefined>> {
+    return this.http.patch<IResponse<undefined>>(this.url`/${id}/problem/reorder`, { problems });
   }
 
   removeContest(id: string): Observable<IResponse<undefined>> {

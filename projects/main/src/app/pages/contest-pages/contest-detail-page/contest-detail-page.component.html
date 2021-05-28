@@ -1,26 +1,50 @@
 <div class="main-container mt-2">
-    <h2 class="mb-2">{{contest?.title}}</h2>
-    <span class="flex border-bottom pb-2">
+    <h2 class="mb-2 page-title">{{contest?.title}}</h2>
+    <span class="flex border-bottom pb-2 mobile-column">
         <span class="font-s me-2">참가신청기간: {{contest | applyingPeriod}}</span>
-        <span class="font-s me-auto">대회시간: <span class="fw-700">{{contest | testPeriod}}</span></span>
+        <span class="font-s me-auto">
+            대회시간:&nbsp;
+            <span *ngIf="(contest?.testPeriod | periodRange | async) === -1" class="fw-700">
+                {{contest | testPeriod}}
+                <span class="text-accent fw-700">({{contest.testPeriod.start | restTime | async}} 전)</span>
+            </span>
+            <span *ngIf="(contest?.testPeriod | periodRange | async) === 0" class="text-warn fw-900">
+                <span class="text-warn fw-900">{{contest.testPeriod.end | restTime | async}} 남음</span>
+            </span>
+            <span *ngIf="(contest?.testPeriod | periodRange | async) === 1" class="text-primary">
+                종료
+            </span>
+        </span>
         <span class="font-s">작성자: {{contest?.writer.name}}</span>
     </span>
 
     <div class="py-2 border-bottom mb-2">
-        <div [swInnerHtml]="contest?.content"></div>
+        <div class="border-box" [swInnerHtml]="contest?.content"></div>
     </div>
 
-    <div class="flex justify-end" *ngIf="isWriter$ | async">
+    <div  *ngIf="isAfterTestPeriod" class="flex justify-end">
+        <span class="text-primary">
+            종료된 대회입니다.
+        </span>
+    </div>
+
+
+    <div class="flex justify-end" *ngIf="(isWriter$ | async) && isBeforeTestPeriod">
         <button type="button"
                 class="me-2 no-border-radius"
                 (click)="removeContest()"
-                mat-flat-button color="warn">콘테스트 삭제
+                mat-flat-button color="warn">
+            <i class="las la-trash-alt"></i><span class="ms-2 mobile-d-none">대회 삭제</span>
         </button>
         <a *ngIf="isBeforeTestPeriod" class="text-white me-2 no-border-radius"
            mat-flat-button color="accent"
-           [routerLink]="['/contest/edit', contest?._id]">콘테스트수정</a>
+           [routerLink]="['/contest/edit', contest?._id]">
+            <i class="las la-edit"></i><span class="ms-2 mobile-d-none">대회 수정</span>
+        </a>
         <a class="no-border-radius" mat-flat-button color="primary"
-           [routerLink]="['/contest', contest?._id, 'problem']">문제 등록 및 수정</a>
+           [routerLink]="['/contest', contest?._id, 'problems']">
+            <i class="las la-folder-plus"></i><span class="ms-2 mobile-d-none">문제 등록/수정</span>
+        </a>
     </div>
 
     <div class="flex justify-end" *ngIf="isContestant$ | async; else notContestantTemplate">
@@ -30,13 +54,16 @@
                 class="no-border-radius"
                 mat-flat-button
                 color="warn">
-            참가신청취소
+            참가취소
         </button>
         <a *ngIf="isTestPeriod" class="no-border-radius"
            mat-flat-button color="primary"
-           [routerLink]="['/contest', contest?._id, 'start']">
-            콘테스트시작
+           [routerLink]="['/contest', contest?._id, 'problems']">
+            대회시작
         </a>
+        <span class="text-warn" *ngIf="isAfterTestPeriod">
+            종료된 대회입니다.
+        </span>
     </div>
 
     <ng-template #notContestantTemplate>
@@ -53,7 +80,9 @@
 
 <div class="main-container">
     <h2 class="mb-2">참가자</h2>
-    <div class="mb-2 font-s">총 <span class="text-warn">{{contest?.contestants.length | number}}명</span>이 참가하고 있습니다.</div>
+    <div class="mb-2 font-s">
+        신청자 수: 총 <span class="text-warn">{{contest?.contestants.length | number}}명</span>
+    </div>
     <sw-contestants-list [contestants]="contest?.contestants"
                          [contestWriter]="contest?.writer._id">
     </sw-contestants-list>

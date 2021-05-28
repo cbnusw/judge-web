@@ -1,20 +1,24 @@
+import { IFile } from './file';
 import { IUserInfo } from './user-info';
 
-export interface IProblemContent {
-  content: string;
-  type: ['html', 'pdf'];
+export interface IProblemOptions {
+  maxRealTime: number;
+  maxMemory: number;
 }
 
 export interface IInputOutput {
-  inFile: string;
-  outFile: string;
+  inFile: IFile;
+  outFile: IFile;
 }
 
 export interface IProblem {
   _id?: string;
   title?: string;
-  content?: IProblemContent;
+  content?: string;
   contest?: string;
+  published?: Date;
   ioSet?: Array<IInputOutput>;
+  options?: IProblemOptions;
+  score?: number;
   writer?: IUserInfo;
 }

@@ -1,6 +1,18 @@
 @import "variables";
 @import "mixins";
 
+body {
+  min-width: $main-width;
+
+  @include mobile {
+    min-width: 100%;
+  }
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
 .block {
   display: block !important;
 }
@@ -23,6 +35,24 @@
 
 .column {
   flex-direction: column;
+}
+
+.column-reverse {
+  flex-direction: column-reverse;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+@include mobile {
+  .mobile-column {
+    flex-direction: column;
+  }
+
+  .mobile-column-reverse {
+    flex-direction: column-reverse;
+  }
 }
 
 .justify-start {
@@ -57,10 +87,28 @@
   align-items: center;
 }
 
+@include mobile {
+  .mobile-d-none {
+    display: none !important;
+  }
+}
+
+@include desktop {
+  .desktop-d-none {
+    display: none !important;
+  }
+}
+
 .main-container {
+  box-sizing: border-box;
   width: $main-width;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 1rem;
+
+  @include mobile {
+    width: 100%;
+    padding: 0.5rem;
+  }
 }
 
 @include combine(grow, (0, 1), flex-grow);
@@ -73,4 +121,5 @@
     }
   }
 }
+
 @include generate-width();

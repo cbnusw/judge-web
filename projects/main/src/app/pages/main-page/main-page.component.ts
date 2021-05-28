@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'sw-main-page',
@@ -9,7 +9,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService,
+              public layout: LayoutService) {
   }
 
   ngOnInit(): void {

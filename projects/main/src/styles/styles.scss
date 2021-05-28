@@ -48,6 +48,12 @@ a {
   font-size: 75%;
 }
 
+.required::after {
+  content: "*";
+  color: mat-color($main-warn);
+  margin-left: 0.4rem;
+}
+
 .error {
   color: mat-color($main-warn);
   font-size: 75%;

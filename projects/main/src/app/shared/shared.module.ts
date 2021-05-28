@@ -7,10 +7,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { HeaderComponent } from './components/header/header.component';
+import { MobileNavigationComponent } from './components/mobile-navigation/mobile-navigation.component';
 
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, MobileNavigationComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -123,7 +123,7 @@ export abstract class AbstractFormDirective<M, S> implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    const model = await this.processBeforeSubmission(this.formGroup.getRawValue());
+    const model = await this.mapToModel(this.formGroup.getRawValue());
 
     this.submitObservable(model).pipe(
       finalize(() => this.loading = false)
@@ -145,7 +145,7 @@ export abstract class AbstractFormDirective<M, S> implements OnInit, OnDestroy {
     this.formGroup.patchValue(m);
   }
 
-  protected async processBeforeSubmission(m: M): Promise<M> {
+  protected async mapToModel(m: M): Promise<M> {
     return m;
   }
 

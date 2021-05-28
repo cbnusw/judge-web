@@ -87,8 +87,20 @@ export class ContestDetailPageComponent implements OnInit, OnDestroy {
     return start.getTime() <= now.getTime() && now.getTime() <= end.getTime();
   }
 
+  get isAfterTestPeriod(): boolean {
+    if (!this.contest) {
+      return false;
+    }
+
+    const { testPeriod } = this.contest;
+    const now = new Date();
+    const end = new Date(testPeriod.end);
+
+    return end.getTime() < now.getTime();
+  }
+
   unenroll(): void {
-    const yes = confirm('콘테스트의 참가신청을 취소하시겠습니까?\n참가신청기간이 지났을 경우 다시 신청할 수 없습니다.');
+    const yes = confirm('대회의 참가신청을 취소하시겠습니까?\n참가신청기간이 지났을 경우 다시 신청할 수 없습니다.');
 
     if (!yes) {
       return;
@@ -99,7 +111,7 @@ export class ContestDetailPageComponent implements OnInit, OnDestroy {
     ).subscribe(
       res => {
         this.contest = res.data;
-        alert('콘테스트 참가신청을 취소하였습니다.');
+        alert('대회 참가신청을 취소하였습니다.');
       },
       err => {
         alert(`${err.error && err.error.message || err.messasge}`);
@@ -114,7 +126,7 @@ export class ContestDetailPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const yes = confirm('콘테스트 참가신청을 하시겠습니까?');
+    const yes = confirm('대회 참가신청을 하시겠습니까?');
 
     if (!yes) {
       return;
@@ -125,14 +137,14 @@ export class ContestDetailPageComponent implements OnInit, OnDestroy {
     ).subscribe(
       res => {
         this.contest = res.data;
-        alert('콘테스트 참가신청을 완료하였습니다.\n콘테스트 시간을 확인하고 해당 시간에 참가해주십시오.');
+        alert('대회 참가신청을 완료하였습니다.\n대회시간을 확인하고 해당 시간에 참가해주십시오.');
       },
       err => alert(`${err.error && err.error.message || err.message}`)
     );
   }
 
   removeContest(): void {
-    const yes = confirm('콘테스트를 삭제하시겠습니까?');
+    const yes = confirm('대회를 삭제하시겠습니까?');
 
     if (!yes) {
       return;
@@ -140,7 +152,7 @@ export class ContestDetailPageComponent implements OnInit, OnDestroy {
 
     this.contestService.removeContest(this.contest._id).subscribe(
       () => {
-        alert('콘테스트를 삭제하였습니다.');
+        alert('대회를 삭제하였습니다.');
         this.router.navigateByUrl('/contest/list/me');
       },
       err => alert(`${err.error && err.error.message || err.message}`)

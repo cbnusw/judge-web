@@ -2,8 +2,6 @@ import { Component, forwardRef, Input, OnInit, Provider } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, ErrorStateMatcher, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 const DATE_FORMATS = {
   parse: {
@@ -133,7 +131,6 @@ export class PeriodControlComponent implements ControlValueAccessor, OnInit {
       start.setMinutes(this.start.minutes);
       end.setHours(this.end.hours);
       end.setMinutes(this.end.minutes);
-      console.log(start, end);
       this.onChange({ start, end });
     } else {
       this.onChange(null);

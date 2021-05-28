@@ -12,6 +12,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/contest-pages/contest-pages.module').then(m => m.ContestPagesModule)
   },
   {
+    path: 'problem',
+    loadChildren: () => import('./pages/problem-pages/problem-pages.module').then(m => m.ProblemPagesModule)
+  },
+  {
+    path: 'submit',
+    loadChildren: () => import('./pages/submit-pages/submit-pages.module').then(m => m.SubmitPagesModule)
+  },
+  {
+    path: 'scoreboard',
+    loadChildren: () => import('./pages/score-board-pages/score-board-pages.module').then(m => m.ScoreBoardPagesModule)
+  },
+  {
     path: 'account',
     canActivate: [NotAuthGuard],
     loadChildren: () => import('./pages/account-pages/account-pages.module').then(m => m.AccountPagesModule)

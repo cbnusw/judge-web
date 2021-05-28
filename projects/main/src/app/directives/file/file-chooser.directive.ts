@@ -2,7 +2,7 @@ import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from '@ang
 
 
 @Directive({
-  selector: '[appFileChooser]'
+  selector: '[swFileChooser]'
 })
 export class FileChooserDirective implements OnInit {
 
@@ -14,9 +14,7 @@ export class FileChooserDirective implements OnInit {
 
   handleClick = () => this.fileInput.click();
 
-  constructor(
-    private elementRef: ElementRef
-  ) {
+  constructor(private elementRef: ElementRef) {
     this.fileInput = document.createElement('input');
     this.fileInput.type = 'file';
   }
@@ -43,11 +41,13 @@ export class FileChooserDirective implements OnInit {
     this.fileInput.onchange = e => {
       const { files } = (e.target as any);
       const results = [];
-      //result를 받아올것
+
       for (const file of files) {
         results.push(file);
       }
+
       this.filesChange.emit(results);
+      this.fileInput.value = '';
     };
 
     if (!this.isDisabled) {

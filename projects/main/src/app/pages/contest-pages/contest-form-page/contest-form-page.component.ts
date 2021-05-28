@@ -33,7 +33,7 @@ export class ContestFormPageComponent extends AbstractFormDirective<IContest, st
   Editor = DecoupledEditor;
 
   config = {
-    placeholder: '여기에 콘테스트 내용 입력',
+    placeholder: '여기에 대회 내용 입력',
     language: 'ko'
   };
 
@@ -62,8 +62,18 @@ export class ContestFormPageComponent extends AbstractFormDirective<IContest, st
   }
 
 
+  protected async mapToModel(m: IContest): Promise<IContest> {
+    if (!(m as any).isApplyingPeriod) {
+      m.applyingPeriod = null;
+    }
+
+    delete (m as any).isApplyingPeriod;
+
+    return m;
+  }
+
   protected async processAfterSubmission(id: string): Promise<void> {
-    alert(`콘테스트 ${this.modifying ? '수정' : '등록'}을 완료하였습니다.`);
+    alert(`대회 ${this.modifying ? '수정' : '등록'}을 완료하였습니다.`);
     await this.router.navigate(['/contest/detail', id]);
   }
 
@@ -98,6 +108,11 @@ export class ContestFormPageComponent extends AbstractFormDirective<IContest, st
       form => {
         const testPeriod = form.get('testPeriod').value;
         const applyingPeriod = form.get('applyingPeriod').value;
+        const isApplyingPeriod = form.get('isApplyingPeriod').value;
+
+        if (!isApplyingPeriod) {
+          return null;
+        }
 
         if (!applyingPeriod) {
           return { requiredApplyingPeriod: true };

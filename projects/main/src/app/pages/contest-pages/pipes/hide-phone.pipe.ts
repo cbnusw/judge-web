@@ -11,12 +11,11 @@ export class HidePhonePipe implements PipeTransform {
 
   transform(phone: string, userId: string, writerId: string): string {
 
-    if (this.auth.me && (this.auth.me._id === userId || this.auth.me._id === writerId)) {
+    if (this.auth.me && (this.auth.isOperator || this.auth.me._id === userId || this.auth.me._id === writerId)) {
       return phone;
     }
 
     const length = phone.length;
     return String(phone.substr(0, 3)).padEnd(length, '*');
   }
-
 }

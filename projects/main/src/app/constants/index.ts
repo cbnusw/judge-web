@@ -13,3 +13,22 @@ export const PERMISSIONS = [
   'judge',
   'qna',
 ];
+
+export const PROGRAMMING_LANGUAGES = [
+  'c',
+  'c++',
+  'java',
+  'python2',
+  'python3',
+  'kotlin',
+  'go',
+];
+
+export const SUBMIT_RESULT = [
+  'compile',
+  'runtime',
+  'timeout',
+  'memory',
+  'wrong',
+  'done'
+];
