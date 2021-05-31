@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { IContest } from '../../../models/contest';
 import { IProblem } from '../../../models/problem';
 import { ISubmit } from '../../../models/submit';
