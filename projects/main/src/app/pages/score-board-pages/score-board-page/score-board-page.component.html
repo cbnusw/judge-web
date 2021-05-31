@@ -19,7 +19,7 @@
                 (click)="moveListPage()">문제보기</button>
     </div>
 
-    <div class="border p-2 flex mb-2 border mobile-column" *ngFor="let board of scoreboards; let i = index;">
+    <div class="border p-2 flex mb-2 border column" *ngFor="let board of scoreboards; let i = index;">
         <span class="me-auto">
             <span class="text-white bg-primary fw-700 border p-2 me-2">{{i + 1}}</span> {{board.user.name}} ({{board.user.department}})
         </span>
