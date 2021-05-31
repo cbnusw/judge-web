@@ -43,8 +43,10 @@ export class ScoreBoardPageComponent implements OnInit, OnDestroy {
           }, 0);
 
           b.penalty = b.scores.reduce((acc, cur) => {
-            acc += cur.time;
-            acc += cur.tries * 20;
+            if (cur.right) {
+              acc += cur.time;
+              acc += (cur.tries - 1) * 20;
+            }
             return acc;
           }, 0);
 
