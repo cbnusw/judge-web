@@ -19,6 +19,7 @@
                 (click)="moveListPage()">문제보기</button>
     </div>
 
+    <div class="mb-2">총 <span class="text-warn">{{scoreboards?.length}}</span>명</div>
     <div class="border p-2 flex mb-2 border column" *ngFor="let board of scoreboards; let i = index;">
         <div class="mb-2">
             <span class="text-white bg-primary fw-700 border px-1 mb-2">{{board.score > 0 ? i + 1 : '-'}}</span>

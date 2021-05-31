@@ -11,5 +11,4 @@ export class ContestListPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
