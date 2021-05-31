@@ -20,10 +20,10 @@
     </div>
 
     <div class="border p-2 flex mb-2 border column" *ngFor="let board of scoreboards; let i = index;">
-        <span class="me-auto">
-            <span class="text-white bg-primary fw-700 border me-2 mb-2">{{i + 1}}</span>
+        <div class="mb-2">
+            <span class="text-white bg-primary fw-700 border mx-1 mb-2">{{i + 1}}</span>
             {{board.user.name}} ({{board.user.department}})
-        </span>
+        </div>
         <div class="flex">
             <div class="total-score p-1 border fw-900 flex column justify-center align-center">
                 <span>총점</span>
