@@ -1,0 +1,10 @@
+@import "variables";
+
+.score {
+  background-color: rgba(0, 0, 0, 0.12);
+
+  &.right {
+    background-color: mat-color($main-primary);
+    color: white;
+  }
+}
