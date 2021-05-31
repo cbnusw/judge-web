@@ -1,5 +1,9 @@
 @import "variables";
 
+.total-score, .score {
+  flex: 0 0 50px;
+}
+
 .score {
   background-color: rgba(0, 0, 0, 0.12);
 

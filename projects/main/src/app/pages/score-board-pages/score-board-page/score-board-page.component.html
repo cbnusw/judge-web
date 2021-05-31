@@ -23,7 +23,7 @@
         <span class="me-auto">
             <span class="text-white bg-primary fw-700 border p-2 me-2">{{i + 1}}</span> {{board.user.name}} ({{board.user.department}})
         </span>
-        <div class="total-score p-1 border text-primary fw-900 flex column justify-center align-center">
+        <div class="total-score p-1 border fw-900 flex column justify-center align-center">
             <span>총점</span>
             <span>점수: <span class="text-primary">{{board.score}}</span></span>
             <span>패널티: <span class="text-warn">{{board.penalty}}</span></span>
@@ -31,6 +31,7 @@
         <span class="score ms-2 p-1 border flex column justify-center align-center"
               [class.right]="score.right"
               *ngFor="let score of board.scores; let i = index;">
+            <span>{{i + 1}}번 문제</span>
             <span>시도: {{score.tries}}</span>
             <span>시간: {{score.time}}</span>
         </span>
