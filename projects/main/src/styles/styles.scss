@@ -34,6 +34,18 @@ body {
 @import "cursor";
 @import "loading";
 
+.bg-primary {
+  background-color: mat-color($main-primary);
+}
+
+.bg-accent {
+  background-color: mat-color($main-accent);
+}
+
+.bg-warn {
+  background-color: mat-color($main-warn);
+}
+
 .none-select {
   user-select: none;
 }
