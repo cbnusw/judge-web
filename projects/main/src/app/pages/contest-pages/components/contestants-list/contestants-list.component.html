@@ -1,3 +1,15 @@
+<div class="mb-1 font-s">
+    <div class="flex justify-between align-end">
+        <span>신청자 수: 총 <span class="text-warn">{{contestants.length | number}}</span>명</span>
+        <button *ngIf="(auth.isOperator$ | async) || (auth.me$ | async)?._id === contestWriter"
+                type="button"
+                class="text-white no-border-radius font-s"
+                mat-flat-button color="accent"
+                (click)="downloadExcel()">
+            <i class="las la-file-excel me-1"></i>다운로드
+        </button>
+    </div>
+</div>
 <div class="table-wrapper">
     <table mat-table
            matSort

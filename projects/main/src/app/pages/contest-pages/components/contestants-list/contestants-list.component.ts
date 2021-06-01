@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 import { IUserInfo } from '../../../../models/user-info';
 import { AuthService } from '../../../../services/auth.service';
 
@@ -13,12 +14,15 @@ export class ContestantsListComponent implements AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
   private _contestants: IUserInfo[];
+  private anchorEle: HTMLAnchorElement;
 
   columns = ['no', 'name', 'department', 'email', 'phone'];
+  @Input() contestTitle: string;
   @Input() contestWriter: string;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public auth: AuthService) {
+    this.anchorEle = document.createElement('a');
   }
 
   @Input() set contestants(contestants: IUserInfo[]) {
@@ -37,6 +41,46 @@ export class ContestantsListComponent implements AfterViewInit, OnDestroy {
 
   get contestants(): IUserInfo[] {
     return this._contestants;
+  }
+
+  downloadExcel(): void {
+    if (!this.auth.isOperator && this.contestWriter !== (this.auth.me || {})._id) {
+      return;
+    }
+
+    const getExcelData = () => {
+      const header = ['#', '학번', '이름', '소속', '이메일', '연락처'];
+
+      return [header, ...this.contestants.map((contestant, i) => [
+        i + 1, contestant.no, contestant.name, contestant.department, contestant.email, contestant.phone
+      ])];
+    };
+
+    const excelHandler = {
+      getExcelFileName: () => `${this.contestTitle}_참가자.xlsx`,
+      getSheetName: () => '대회 참가자',
+      getExcelData,
+      getWorksSheet: () => XLSX.utils.aoa_to_sheet(getExcelData())
+    };
+
+    const s2ab = (s: any) => {
+      const buf = new ArrayBuffer(s.length);
+      const view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i++) {
+        // tslint:disable-next-line:no-bitwise
+        view[i] = s.charCodeAt(i) & 0xFF;
+      }
+      return buf;
+    };
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = excelHandler.getWorksSheet();
+    XLSX.utils.book_append_sheet(wb, ws, excelHandler.getSheetName());
+    const out = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+    const blob = new Blob([s2ab(out)], { type: 'application/octet-stream' });
+    this.anchorEle.href = URL.createObjectURL(blob);
+    this.anchorEle.download = excelHandler.getExcelFileName();
+    this.anchorEle.click();
   }
 
   ngAfterViewInit(): void {
@@ -71,5 +115,4 @@ export class ContestantsListComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
-
 }

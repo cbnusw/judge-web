@@ -4,7 +4,7 @@
   @for $i from 1 through length($sizes) {
     .#{$prefix}-#{$i - 1} {
       @each $property in $properties {
-        #{$property}: 1em * nth($sizes, $i) !important;
+        #{$property}: 1rem * nth($sizes, $i) !important;
       }
     }
   }

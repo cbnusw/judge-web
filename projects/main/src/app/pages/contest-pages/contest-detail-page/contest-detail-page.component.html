@@ -22,15 +22,17 @@
         <div class="border-box" [swInnerHtml]="contest?.content"></div>
     </div>
 
-    <div *ngIf="isAfterTestPeriod" class="flex justify-end">
-        <span class="text-primary me-2">
-            종료된 대회입니다.
-        </span>
-        <a mat-flat-button color="primary" routerLink="/scoreboard" [queryParams]="{contest: contest?._id}">스코어보드</a>
+    <div *ngIf="isAfterTestPeriod || (isWriter$ | async) || (isContestant$ | async)" class="flex justify-end">
+        <a class="no-border-radius"
+           mat-flat-button color="primary"
+           routerLink="/scoreboard"
+           [queryParams]="{contest: contest?._id}">
+            스코어보드
+        </a>
     </div>
 
 
-    <div class="flex justify-end" *ngIf="(isWriter$ | async) && isBeforeTestPeriod">
+    <div class="flex justify-end" *ngIf="(isWriter$ | async)">
         <button type="button"
                 class="me-2 no-border-radius"
                 (click)="removeContest()"
@@ -42,7 +44,7 @@
            [routerLink]="['/contest/edit', contest?._id]">
             <i class="las la-edit"></i><span class="ms-2 mobile-d-none">대회 수정</span>
         </a>
-        <a class="no-border-radius" mat-flat-button color="primary"
+        <a *ngIf="isBeforeTestPeriod" class="no-border-radius" mat-flat-button color="primary"
            [routerLink]="['/contest', contest?._id, 'problems']">
             <i class="las la-folder-plus"></i><span class="ms-2 mobile-d-none">문제 등록/수정</span>
         </a>
@@ -62,9 +64,6 @@
            [routerLink]="['/contest', contest?._id, 'problems']">
             대회시작
         </a>
-        <span class="text-warn" *ngIf="isAfterTestPeriod">
-            종료된 대회입니다.
-        </span>
     </div>
 
     <ng-template #notContestantTemplate>
@@ -81,10 +80,8 @@
 
 <div class="main-container">
     <h2 class="mb-2">참가자</h2>
-    <div class="mb-2 font-s">
-        신청자 수: 총 <span class="text-warn">{{contest?.contestants.length | number}}명</span>
-    </div>
-    <sw-contestants-list [contestants]="contest?.contestants"
+    <sw-contestants-list [contestTitle]="contest?.title"
+                         [contestants]="contest?.contestants"
                          [contestWriter]="contest?.writer._id">
     </sw-contestants-list>
 </div>

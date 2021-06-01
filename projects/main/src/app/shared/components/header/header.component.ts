@@ -18,10 +18,10 @@ export class HeaderComponent implements OnInit {
       name: '문제',
       link: '/problem/list',
     },
-    // {
-    //   name: '대회',
-    //   link: '/contest/list'
-    // },
+    {
+      name: '대회',
+      link: '/contest/list'
+    },
     // {
     //   name: '강의',
     //   link: '/'

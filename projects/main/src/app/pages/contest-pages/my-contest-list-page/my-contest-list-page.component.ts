@@ -17,12 +17,11 @@ import { ContestService } from '../../../services/apis/contest.service';
 })
 export class MyContestListPageComponent extends AbstractSearchDirective<IContest> implements AfterViewInit {
 
-  columns = ['no', 'title', 'testPeriod', 'applyPeriod', 'writer', 'contestants', 'createdAt'];
+  columns = ['no', 'title', 'testPeriod', 'applyingPeriod', 'writer', 'contestants', 'createdAt'];
   limitOptions: number[] = [10, 25, 50, 100];
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private contestService: ContestService,
-              private datePipe: DatePipe) {
+  constructor(private contestService: ContestService) {
     super({ limit: 10, sort: '-createdAt' }, ['title']);
   }
 
