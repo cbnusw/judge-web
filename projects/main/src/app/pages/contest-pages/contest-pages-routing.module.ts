@@ -8,7 +8,7 @@ import { ContestProblemListPageComponent } from './contest-problem-list-page/con
 import { MyContestListPageComponent } from './my-contest-list-page/my-contest-list-page.component';
 
 const routes: Routes = [
-  { path: 'list', canActivate: [AuthGuard], component: ContestListPageComponent },
+  { path: 'list', component: ContestListPageComponent },
   { path: 'list/me', canActivate: [AuthGuard], component: MyContestListPageComponent },
   { path: 'register', canActivate: [AuthGuard], component: ContestFormPageComponent },
   { path: 'edit/:id', canActivate: [AuthGuard], component: ContestFormPageComponent },
